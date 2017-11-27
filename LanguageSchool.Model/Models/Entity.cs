@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace LanguageSchool.Model
 {
-    public class Language: Entity
+    public abstract class Entity
     {
         [Key]
-        public int LanguageID { get; set; }
-        [Required]
-        public string LanguageName { get; set; }
+        public virtual int Id { get; set; }
 
-        public virtual ICollection<Class> Classes { get; set; }
+        [Timestamp]
+        public byte[] Version { get; set; }
     }
 }

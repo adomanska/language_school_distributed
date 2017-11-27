@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace LanguageSchool.Model
 {
-    public class Class
+    public class Class: Entity
     {
-        [Key]
-        public int ClassID { get; set; }
+        public Class()
+        {
+            this.Students = new Collection<Student>();
+        }
+
         [Required]
         public string ClassName { get; set; }
         [Required]

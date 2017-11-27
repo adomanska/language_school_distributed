@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace LanguageSchool.Model
 {
-    public class LanguageSchoolContext: DbContext, ILanguageSchoolContext
+    public class LanguageSchoolContext: DbContext, IStudentContext, ILanguageSchoolContext
     {
         static LanguageSchoolContext()
         {
