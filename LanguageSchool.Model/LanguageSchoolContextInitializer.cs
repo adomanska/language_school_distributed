@@ -18,6 +18,17 @@ namespace LanguageSchool.Model
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "B2" });
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "C1" });
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "C2" });
+
+            Student s = new Student()
+            {
+                Email = "test@gmail.com",
+                HashedPassword = "password",
+                Salt = "dfsd",
+                FirstName = "Tom",
+                LastName = "Cruise",
+                PhoneNumber = "503698745"
+            };
+            context.Students.Add(s);
         }
     }
 }

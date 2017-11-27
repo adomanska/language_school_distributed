@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace LanguageSchool.Model
 {
-    public class LanguageLevel
+    public class LanguageLevel: Entity
     {
-        [Key]
-        public int LanguageLevelID { get; set; }
         [Required]
         public string LanguageLevelSignature { get; set; }
 
