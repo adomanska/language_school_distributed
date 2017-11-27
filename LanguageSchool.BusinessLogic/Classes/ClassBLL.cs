@@ -36,7 +36,7 @@ namespace LanguageSchool.BusinessLogic
 
         public (List<Class> classes, int pageCount) Search(ClassFilter filter)
         {
-            var resultCollection = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.LanguageID, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.LanguageLevelID);
+            var resultCollection = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.LanguageID, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
             var count = Math.Ceiling(((double)resultCollection.Count()) / filter.PageSize);
             var list = resultCollection.OrderBy(x=> x.ClassName).Skip(filter.PageSize * (filter.PageNumber - 1)).Take(filter.PageSize).ToList();
 

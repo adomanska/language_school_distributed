@@ -30,7 +30,7 @@ namespace LanguageSchool.DataAccess
 
         public Class GetByID(int ID)
         {
-            Class _class = db.Classes.Where(x => x.ClassID == ID).Select(x => x).FirstOrDefault();
+            Class _class = db.Classes.Where(x => x.Id == ID).Select(x => x).FirstOrDefault();
             return _class;
         }
         
@@ -60,7 +60,7 @@ namespace LanguageSchool.DataAccess
 
         public IQueryable<Class> GetSuggestedClasses(int id)
         {
-            Student s = db.Students.Where(x => x.ID == id).FirstOrDefault();
+            Student s = db.Students.Where(x => x.Id == id).FirstOrDefault();
             if (s == null)
                 throw new ArgumentException("Invalid id");
             return s.Classes.SelectMany(x => x.Students).SelectMany(y => y.Classes).Distinct().Except(s.Classes).AsQueryable();

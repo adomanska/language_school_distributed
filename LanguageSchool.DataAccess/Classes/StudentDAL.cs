@@ -50,7 +50,7 @@ namespace LanguageSchool.DataAccess
 
         public Student FindByID(int id)
         {
-            Student student = db.Students.FirstOrDefault(x => x.ID == id);
+            Student student = db.Students.FirstOrDefault(x => x.Id == id);
             return student;
         }
 
@@ -58,7 +58,7 @@ namespace LanguageSchool.DataAccess
         {
             try
             {
-                Student existingStudent = db.Students.Where(x => x.ID == id).FirstOrDefault();
+                Student existingStudent = db.Students.Where(x => x.Id == id).FirstOrDefault();
                 
                 existingStudent.FirstName = firstName;
                 existingStudent.LastName = lastName;
@@ -90,7 +90,7 @@ namespace LanguageSchool.DataAccess
                 expression = x => x.LastName;
                 if (text != null) query = query.Where(x => x.LastName.Contains(text));
             }
-            query = query.OrderBy(x => x.ID);
+            query = query.OrderBy(x => x.Id);
             if (sorted)
                 query = query.OrderBy(expression);
             return query;

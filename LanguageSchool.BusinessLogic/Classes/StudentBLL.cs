@@ -86,7 +86,7 @@ namespace LanguageSchool.BusinessLogic
             try
             {
                 Student existingStudent = studentDAL.FindByEmail(email);
-                if (existingStudent != null && existingStudent.ID != id)
+                if (existingStudent != null && existingStudent.Id != id)
                     throw new Exception("Student with such email already exists");
 
                 IsValidData(firstName, lastName, email, phoneNumber);

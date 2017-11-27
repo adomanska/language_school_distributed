@@ -19,6 +19,6 @@ namespace LanguageSchool.Model
         IDbSet<Language> Languages { get; }
         IDbSet<LanguageLevel> LanguageLevels { get; }
 
-        //DbEntityEntry Entry(Object o); - do czego to było?
+        DbEntityEntry Entry(Object o);
     }
 }
