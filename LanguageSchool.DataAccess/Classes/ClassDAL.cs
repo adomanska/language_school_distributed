@@ -52,6 +52,19 @@ namespace LanguageSchool.DataAccess
 
             return resultCollection;
         }
+
+        public IQueryable<Class> GetTopClasses(int count)
+        {
+            return db.Classes.OrderByDescending(x => x.Students.Count).Take(count);
+        }
+
+        public IQueryable<Class> GetSuggestedClasses(int id)
+        {
+            Student s = db.Students.Where(x => x.ID == id).FirstOrDefault();
+            if (s == null)
+                throw new ArgumentException("Invalid id");
+            return s.Classes.SelectMany(x => x.Students).SelectMany(y => y.Classes).Distinct().Except(s.Classes).AsQueryable();
+        }
      
     }
 }

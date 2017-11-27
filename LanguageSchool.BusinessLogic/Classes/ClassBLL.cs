@@ -42,6 +42,24 @@ namespace LanguageSchool.BusinessLogic
 
             return (list, (int)count);
         }
+
+        public List<Class> GetTopClasses(int count)
+        {
+            if (count <= 0)
+                throw new ArgumentException("Invalid argument: count has to be > 0");
+            if (count > classDAL.GetAll().Count())
+                throw new ArgumentException("Invalid argument: count cannot be larger than classes count");
+
+            return classDAL.GetTopClasses(count).ToList();
+        }
+
+        public List<Class> GetSuggestedClasses(int studentID, int count)
+        {
+            if (count <= 0)
+                throw new ArgumentException("Invalid argument: count has to be > 0");
+            var sugClasses = classDAL.GetSuggestedClasses(studentID);
+            return sugClasses.Take(Math.Min(sugClasses.Count(), count)).ToList();
+        }
     }
 
     public class ClassFilter

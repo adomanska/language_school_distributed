@@ -14,5 +14,7 @@ namespace LanguageSchool.DataAccess
         Class GetByID(int ID);
         List<Class> GetClasess(string language, string level);
         IQueryable<Class> Search(string className, int languageID, int languageLevelID);
+        IQueryable<Class> GetTopClasses(int count);
+        IQueryable<Class> GetSuggestedClasses(int id);
     }
 }

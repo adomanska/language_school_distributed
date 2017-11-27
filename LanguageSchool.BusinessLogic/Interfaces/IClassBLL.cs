@@ -14,5 +14,7 @@ namespace LanguageSchool.BusinessLogic
         Class GetByID(int ID);
         List<Class> GetClasses(string language, string level);
         (List<Class> classes, int pageCount) Search(ClassFilter filter);
+        List<Class> GetTopClasses(int count);
+        List<Class> GetSuggestedClasses(int studentID, int count);
     }
 }
