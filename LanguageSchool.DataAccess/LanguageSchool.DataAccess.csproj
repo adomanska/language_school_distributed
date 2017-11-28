@@ -40,9 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LanguageSchool.Model\bin\Debug\LanguageSchool.Model.dll</HintPath>
     </Reference>
-    <Reference Include="LanguageSchool.WebApi">
-      <HintPath>..\LanguageSchool.WebApi\bin\LanguageSchool.WebApi.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -61,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\ClassDAL.cs" />
+    <Compile Include="Providers\ContextProvider.cs" />
+    <Compile Include="Providers\IContextProvider.cs" />
     <Compile Include="Interfaces\IClassDAL.cs" />
     <Compile Include="Interfaces\ILanguageDAL.cs" />
     <Compile Include="Interfaces\ILanguageLevelDAL.cs" />

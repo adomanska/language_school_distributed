@@ -48,13 +48,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LanguageSchool.BusinessLogic">
-      <HintPath>..\LanguageSchool.BusinessLogic\bin\Debug\LanguageSchool.BusinessLogic.dll</HintPath>
-    </Reference>
-    <Reference Include="LanguageSchool.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LanguageSchool.DataAccess\bin\Debug\LanguageSchool.DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="LanguageSchool.Model">
       <HintPath>..\LanguageSchool.Model\obj\Debug\LanguageSchool.Model.dll</HintPath>
     </Reference>
@@ -162,8 +155,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\ContextProvider.cs" />
-    <Compile Include="Providers\IContextProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -183,6 +174,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LanguageSchool.BusinessLogic\LanguageSchool.BusinessLogic.csproj">
+      <Project>{036de280-ef74-4b92-8730-1abdcba18e3c}</Project>
+      <Name>LanguageSchool.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LanguageSchool.DataAccess\LanguageSchool.DataAccess.csproj">
+      <Project>{98e12b1a-ce3f-418e-bc8e-41aa040323e1}</Project>
+      <Name>LanguageSchool.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
