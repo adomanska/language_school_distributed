@@ -5,38 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using LanguageSchool.Model;
 using System.Data.Entity;
+using LanguageSchool.WebApi.Providers;
 
 namespace LanguageSchool.DataAccess
 {
     public class LanguageLevelDAL: ILanguageLevelDAL
     {
-        private ILanguageSchoolContext db;
-
-        public LanguageLevelDAL(ILanguageSchoolContext context)
+        IContextProvider contextProvider;
+        public LanguageLevelDAL(IContextProvider provider)
         {
-            db = context;
-            //db.LanguageLevels.Load();
+            contextProvider = provider;
         }
-        public IQueryable<LanguageLevel> GetAll()
+        public List<LanguageLevel> GetAll()
         {
-            try
+            using (var db = contextProvider.GetNewContext())
             {
-                return db.LanguageLevels;
-            }
-            catch
-            {
-                throw;
+                return db.LanguageLevels.ToList();
             }
         }
 
         public List<string> GetLevels(string language)
         {
-            var lan = db.Languages.Where(l => l.LanguageName == language).FirstOrDefault();
-            if(lan != null)
+            using (var db = contextProvider.GetNewContext())
             {
-                return db.Classes.Where(c => c.Language.Id == lan.Id).Select(x=>x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
+                var lan = db.Languages.Where(l => l.LanguageName == language).FirstOrDefault();
+                if (lan != null)
+                {
+                    return db.Classes.Where(c => c.Language.Id == lan.Id).Select(x => x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
+                }
+                return null;
             }
-            return null;
         }
     }
 }

@@ -10,11 +10,11 @@ namespace LanguageSchool.DataAccess
 {
     public interface IClassDAL
     {
-        IQueryable<Class> GetAll();
+        List<Class> GetAll();
         Class GetByID(int ID);
         List<Class> GetClasess(string language, string level);
-        IQueryable<Class> Search(string className, int languageID, int languageLevelID);
-        IQueryable<Class> GetTopClasses(int count);
-        IQueryable<Class> GetSuggestedClasses(int id);
+        List<Class> Search(string className, int languageID, int languageLevelID);
+        List<Class> GetTopClasses(int count);
+        List<Class> GetSuggestedClasses(int id);
     }
 }

@@ -11,8 +11,7 @@ namespace LanguageSchool.DataAccess
 {
     public interface ILanguageDAL
     {
-        IQueryable<Language> GetAll();
+        List<Language> GetAll();
         Language GetById(int Id);
-        void Add(Language language);
     }
 }

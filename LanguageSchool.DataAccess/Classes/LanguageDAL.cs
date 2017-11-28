@@ -6,45 +6,32 @@ using System.Threading.Tasks;
 using LanguageSchool.Model;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
+using LanguageSchool.WebApi.Providers;
 
 namespace LanguageSchool.DataAccess
 {
     public class LanguageDAL: ILanguageDAL
     {
-        private ILanguageSchoolContext db;
+        private IContextProvider contextProvider;
 
-        public LanguageDAL(ILanguageSchoolContext context)
+        public LanguageDAL(IContextProvider provider)
         {
-            db = context;
-            //db.Languages.Load();
+            contextProvider = provider;
         }
-        public IQueryable<Language> GetAll()
+        public List<Language> GetAll()
         {
-            try
+            using (var db = contextProvider.GetNewContext())
             {
-                return db.Languages;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public void Add(Language language)
-        {
-            try
-            {
-                db.Languages.Add(language);
-                db.SaveChanges();
-            }
-            catch
-            {
-                throw;
+                return db.Languages.ToList();
             }
         }
 
         public Language GetById(int Id)
         {
-            return db.Languages.Where(x => x.Id == Id).Select(x => x).FirstOrDefault();
+            using (var db = contextProvider.GetNewContext())
+            {
+                return db.Languages.Where(x => x.Id == Id).Select(x => x).FirstOrDefault();
+            }
         }
     }
 }

@@ -48,6 +48,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LanguageSchool.BusinessLogic">
+      <HintPath>..\LanguageSchool.BusinessLogic\bin\Debug\LanguageSchool.BusinessLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="LanguageSchool.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LanguageSchool.DataAccess\bin\Debug\LanguageSchool.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="LanguageSchool.Model">
       <HintPath>..\LanguageSchool.Model\obj\Debug\LanguageSchool.Model.dll</HintPath>
     </Reference>
@@ -148,6 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\LanguagesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

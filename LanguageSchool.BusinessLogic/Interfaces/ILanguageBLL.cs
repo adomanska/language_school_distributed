@@ -12,9 +12,6 @@ namespace LanguageSchool.BusinessLogic
     public interface ILanguageBLL
     {
         List<Language> GetAll();
-        int Add(string languageName);
-        bool Exists(string languageName);
-        bool IsValidLanguage(string languageName);
         Language GetById(int Id);
     }
 }

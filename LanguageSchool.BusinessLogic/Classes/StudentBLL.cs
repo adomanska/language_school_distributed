@@ -38,7 +38,7 @@ namespace LanguageSchool.BusinessLogic
         {
             try
             {
-                return studentDAL.GetAll().ToList();
+                return studentDAL.GetAll();
             }
             catch
             {

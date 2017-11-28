@@ -19,14 +19,7 @@ namespace LanguageSchool.BusinessLogic
         }
         public List<LanguageLevel> GetAll()
         {
-            try
-            {
-                return languageLevelDAL.GetAll().ToList();
-            }
-            catch
-            {
-                throw;
-            }
+             return languageLevelDAL.GetAll().ToList();
         }
 
         public List<string> GetLevels(string language)

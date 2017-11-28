@@ -21,7 +21,7 @@ namespace LanguageSchool.BusinessLogic
         }
         public List<Class> GetAll()
         {
-            return classDAL.GetAll().ToList();
+            return classDAL.GetAll();
         }
 
         public Class GetByID (int ID)
@@ -47,8 +47,6 @@ namespace LanguageSchool.BusinessLogic
         {
             if (count <= 0)
                 throw new ArgumentException("Invalid argument: count has to be > 0");
-            if (count > classDAL.GetAll().Count())
-                throw new ArgumentException("Invalid argument: count cannot be larger than classes count");
 
             return classDAL.GetTopClasses(count).ToList();
         }
