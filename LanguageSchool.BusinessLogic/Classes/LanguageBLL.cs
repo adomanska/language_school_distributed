@@ -62,7 +62,7 @@ namespace LanguageSchool.BusinessLogic
                 throw;
             }
 
-            return language.LanguageID;
+            return language.Id;
         }
 
         public Language GetById(int Id)

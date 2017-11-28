@@ -34,7 +34,7 @@ namespace LanguageSchool.DataAccess
             var lan = db.Languages.Where(l => l.LanguageName == language).FirstOrDefault();
             if(lan != null)
             {
-                return db.Classes.Where(c => c.Language.LanguageID == lan.LanguageID).Select(x=>x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
+                return db.Classes.Where(c => c.Language.Id == lan.Id).Select(x=>x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
             }
             return null;
         }

@@ -9,8 +9,6 @@ namespace LanguageSchool.Model
 {
     public class Language: Entity
     {
-        [Key]
-        public int LanguageID { get; set; }
         [Required]
         public string LanguageName { get; set; }
 

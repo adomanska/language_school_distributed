@@ -44,7 +44,7 @@ namespace LanguageSchool.DataAccess
 
         public Language GetById(int Id)
         {
-            return db.Languages.Where(x => x.LanguageID == Id).Select(x => x).FirstOrDefault();
+            return db.Languages.Where(x => x.Id == Id).Select(x => x).FirstOrDefault();
         }
     }
 }
