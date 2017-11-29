@@ -90,6 +90,33 @@ namespace LanguageSchool.DataAccess
             }
             return suggestedClasses;
         }
+
+        public List<Student> GetStudents(int id)
+        {
+            using (var db = contextProvider.GetNewContext())
+            {
+                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
+                return _class.Students.ToList();
+            }
+        }
+
+        public Language GetLanguage(int id)
+        {
+            using (var db = contextProvider.GetNewContext())
+            {
+                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
+                return _class.Language;
+            }
+        }
+
+        public LanguageLevel GetLanguageLevel(int id)
+        {
+            using (var db = contextProvider.GetNewContext())
+            {
+                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
+                return _class.LanguageLevel;
+            }
+        }
      
     }
 }

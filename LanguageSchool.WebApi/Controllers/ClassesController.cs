@@ -9,6 +9,7 @@ using LanguageSchool.Model;
 using LanguageSchool.BusinessLogic;
 using LanguageSchool.DataAccess;
 using System.Web;
+using LanguageSchool.Shared.Dtos;
 
 namespace LanguageSchool.WebApi.Controllers
 {
@@ -26,29 +27,29 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult Get()
         {
             var classes = classBLL.GetAll();
-            return Ok(classes.Select(x=>x.ClassName));
+            return Ok(classes);
         }
 
         public IHttpActionResult Get(int id)
         {
-            Class _class = classBLL.GetByID(id);
+            var _class = classBLL.GetByID(id);
             if (_class == null)
                 return NotFound();
             else
-                return Ok(_class.ClassName);
+                return Ok(_class);
         }
 
         public IHttpActionResult Get(string language, string languageLevel)
         {
             var classes = classBLL.GetClasses(language, languageLevel);
-            return Ok(classes.Select(x=>x.ClassName));
+            return Ok(classes);
         }
 
         [Route("api/classes/top/{count:int}"),HttpGet]
         public IHttpActionResult GetTop(int count)
         {
             var topClasses = classBLL.GetTopClasses(count);
-            return Ok(topClasses.Select(x => x.ClassName));
+            return Ok(topClasses);
         }
 
         [Authorize]
@@ -57,7 +58,7 @@ namespace LanguageSchool.WebApi.Controllers
         {
             //string username = HttpContext.Current.User.Identity.Name;
             var suggestedClasses = classBLL.GetSuggestedClasses(1, 1);
-            return Ok(suggestedClasses.Select(x => x.ClassName));
+            return Ok(suggestedClasses);
         }
 
     }

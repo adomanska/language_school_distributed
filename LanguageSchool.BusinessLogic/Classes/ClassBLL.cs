@@ -8,6 +8,7 @@ using LanguageSchool.Model;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using LanguageSchool.Shared.Dtos;
 
 namespace LanguageSchool.BusinessLogic
 {
@@ -19,44 +20,130 @@ namespace LanguageSchool.BusinessLogic
         {
             classDAL = _classDAL;
         }
-        public List<Class> GetAll()
+        public List<ClassBasicDataDto> GetAll()
         {
-            return classDAL.GetAll();
+            var classes =  classDAL.GetAll();
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+            foreach(Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
+                {
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                };
+                result.Add(classData);
+            }
+
+            return result;
         }
 
-        public Class GetByID (int ID)
+        public ClassDataDto GetByID (int ID)
         {
-            return classDAL.GetByID(ID);
+            Class c = classDAL.GetByID(ID);
+            ClassDataDto classData = new ClassDataDto()
+            {
+                ClassName = c.ClassName,
+                Language = classDAL.GetLanguage(c.Id).LanguageName,
+                LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                StartTime = c.StartTime,
+                EndTime = c.EndTime,
+                StudentsCount = GetStudentsCount(c.Id),
+                StudentsMax = c.StudentsMax
+            };
+
+            return classData;
         }
 
-        public List<Class> GetClasses(string language, string level)
+        public List<ClassBasicDataDto> GetClasses(string language, string level)
         {
-            return classDAL.GetClasess(language, level);
+            var classes =  classDAL.GetClasess(language, level);
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+            foreach (Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
+                {
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                };
+                result.Add(classData);
+            }
+
+            return result;
         }
 
-        public (List<Class> classes, int pageCount) Search(ClassFilter filter)
+        public List<ClassBasicDataDto> Search(ClassFilter filter)
         {
-            var resultCollection = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.Id, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
-            var count = Math.Ceiling(((double)resultCollection.Count()) / filter.PageSize);
-            var list = resultCollection.OrderBy(x=> x.ClassName).Skip(filter.PageSize * (filter.PageNumber - 1)).Take(filter.PageSize).ToList();
+            var classes = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.Id, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
 
-            return (list, (int)count);
+            foreach (Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
+                {
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                };
+                result.Add(classData);
+            }
+
+            return result;
         }
 
-        public List<Class> GetTopClasses(int count)
+        public List<ClassBasicDataDto> GetTopClasses(int count)
         {
             if (count <= 0)
                 throw new ArgumentException("Invalid argument: count has to be > 0");
 
-            return classDAL.GetTopClasses(count).ToList();
+            var classes =  classDAL.GetTopClasses(count).ToList();
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+            foreach (Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
+                {
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                };
+                result.Add(classData);
+            }
+
+            return result;
         }
 
-        public List<Class> GetSuggestedClasses(int studentID, int count)
+        public List<ClassBasicDataDto> GetSuggestedClasses(int studentID, int count)
         {
             if (count <= 0)
                 throw new ArgumentException("Invalid argument: count has to be > 0");
-            var sugClasses = classDAL.GetSuggestedClasses(studentID);
-            return sugClasses.Take(Math.Min(sugClasses.Count(), count)).ToList();
+            var classes = classDAL.GetSuggestedClasses(studentID);
+            classes.Take(Math.Min(classes.Count(), count)).ToList();
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+            foreach (Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
+                {
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                };
+                result.Add(classData);
+            }
+
+            return result;
+        }
+
+        private int GetStudentsCount(int id)
+        {
+            var students = classDAL.GetStudents(id);
+            if (students == null)
+                throw new ArgumentException();
+            return students.Count;
         }
     }
 

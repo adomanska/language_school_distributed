@@ -10,6 +10,7 @@ using System.IO;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
 using static System.Net.Mime.MediaTypeNames;
+using LanguageSchool.Shared.Dtos;
 
 namespace LanguageSchool.BusinessLogic
 {
@@ -21,9 +22,20 @@ namespace LanguageSchool.BusinessLogic
         {
             languageDAL = _languageDAL;
         }
-        public List<Language> GetAll()
+        public List<LanguageDataDto> GetAll()
         {
-            return languageDAL.GetAll();
+            var languages =  languageDAL.GetAll();
+            List<LanguageDataDto> result = new List<LanguageDataDto>();
+            foreach(var l in languages)
+            {
+                LanguageDataDto languageData = new LanguageDataDto()
+                {
+                    LanguageName = l.LanguageName
+                };
+                result.Add(languageData);
+            }
+
+            return result;
         }
     
         public Language GetById(int Id)
