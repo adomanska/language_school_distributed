@@ -8,6 +8,7 @@ using LanguageSchool.WebApi.Providers;
 using LanguageSchool.Model;
 using LanguageSchool.BusinessLogic;
 using LanguageSchool.DataAccess;
+using System.Web;
 
 namespace LanguageSchool.WebApi.Controllers
 {
@@ -50,6 +51,7 @@ namespace LanguageSchool.WebApi.Controllers
             return Ok(topClasses.Select(x => x.ClassName));
         }
 
+        [Authorize]
         [Route("api/classes/suggested"), HttpGet]
         public IHttpActionResult GetSuggested()
         {
