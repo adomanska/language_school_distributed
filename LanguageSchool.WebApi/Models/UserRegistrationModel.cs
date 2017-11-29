@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LanguageSchool.WebApi
 {
-    public class UserModel
+    public class UserRegistrationModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -18,9 +18,27 @@ namespace LanguageSchool.WebApi
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
     }
 }

@@ -20,7 +20,7 @@ namespace LanguageSchool.WebApi
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel)
+        public async Task<IdentityResult> RegisterUser(UserRegistrationModel userModel)
         {
             IdentityUser user = new IdentityUser
             {

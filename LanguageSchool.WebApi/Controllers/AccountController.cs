@@ -22,7 +22,7 @@ namespace LanguageSchool.WebApi.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public async Task<IHttpActionResult> Register(UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
             {

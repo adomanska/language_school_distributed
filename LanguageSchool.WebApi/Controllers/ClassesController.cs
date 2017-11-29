@@ -55,6 +55,7 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/classes/suggested"), HttpGet]
         public IHttpActionResult GetSuggested()
         {
+            //string username = HttpContext.Current.User.Identity.Name;
             var suggestedClasses = classBLL.GetSuggestedClasses(1, 1);
             return Ok(suggestedClasses.Select(x => x.ClassName));
         }
