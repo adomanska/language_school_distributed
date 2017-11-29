@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LanguageSchool.Model;
 using System.Linq.Expressions;
-using LanguageSchool.WebApi.Providers;
+using LanguageSchool.DataAccess.Providers;
 
 namespace LanguageSchool.DataAccess
 {

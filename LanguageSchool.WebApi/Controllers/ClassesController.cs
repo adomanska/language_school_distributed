@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using LanguageSchool.WebApi.Providers;
+using LanguageSchool.DataAccess.Providers;
 using LanguageSchool.Model;
 using LanguageSchool.BusinessLogic;
 using LanguageSchool.DataAccess;

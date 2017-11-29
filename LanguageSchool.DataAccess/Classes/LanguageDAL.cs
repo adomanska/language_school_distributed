@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LanguageSchool.Model;
 using System.Data.Entity;
 using System.Collections.ObjectModel;
-using LanguageSchool.WebApi.Providers;
+using LanguageSchool.DataAccess.Providers;
 
 namespace LanguageSchool.DataAccess
 {

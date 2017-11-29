@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LanguageSchool.Model;
 
-namespace LanguageSchool.WebApi.Providers
+namespace LanguageSchool.DataAccess.Providers
 {
     public interface IContextProvider
     {

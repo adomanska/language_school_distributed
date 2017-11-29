@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using LanguageSchool.Model;
 
-namespace LanguageSchool.WebApi.Providers
+namespace LanguageSchool.DataAccess.Providers
 {
     public class ContextProvider<T> : IContextProvider
         where T : ILanguageSchoolContext, new()
