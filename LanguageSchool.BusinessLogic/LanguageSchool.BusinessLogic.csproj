@@ -36,9 +36,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LanguageSchool.Shared">
-      <HintPath>..\LanguageSchool.Shared\bin\Debug\LanguageSchool.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -83,6 +80,10 @@
     <ProjectReference Include="..\LanguageSchool.Model\LanguageSchool.Model.csproj">
       <Project>{7188bcf3-7c5b-473d-925f-497fa9fe1636}</Project>
       <Name>LanguageSchool.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LanguageSchool.Shared\LanguageSchool.Shared.csproj">
+      <Project>{8d48cb75-3ed3-4f75-b009-27556a9891c8}</Project>
+      <Name>LanguageSchool.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

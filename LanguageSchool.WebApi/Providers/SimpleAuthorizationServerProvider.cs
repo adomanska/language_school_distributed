@@ -30,14 +30,16 @@ namespace LanguageSchool.WebApi
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+
+                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                identity.AddClaim(new Claim("sub", user.Id));
+                identity.AddClaim(new Claim("role", "user"));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+                identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+
+                context.Validated(identity);
             }
 
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
-            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-
-            context.Validated(identity);
         }
     }
 }

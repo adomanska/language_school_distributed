@@ -13,7 +13,7 @@ namespace LanguageSchool.WebApi.Controllers
 {
     public class LanguagesController : ApiController
     {
-        IContextProvider contextProvider;
+        IlanguageSchoolContext contextProvider;
         ILanguageBLL languageBLL;
 
         public LanguagesController()

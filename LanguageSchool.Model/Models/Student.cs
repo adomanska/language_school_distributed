@@ -10,22 +10,21 @@ using System.Threading.Tasks;
 
 namespace LanguageSchool.Model
 {
-    public class Student: Entity
+    public class Student
     {
         public Student()
         {
             this.Classes = new Collection<Class>();
         }
 
-        [Required]
-        //[Index(IsUnique = true)]
-        public string Email { get; set; }
-        public string HashedPassword { get; set; }
-        public string Salt { get; set; }
+        [Key]
+        public string Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        [Required]
+        public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
         public virtual ICollection<Class> Classes { get; set; }

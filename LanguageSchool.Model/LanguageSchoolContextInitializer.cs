@@ -21,18 +21,16 @@ namespace LanguageSchool.Model
 
             Student s = new Student()
             {
+                Id = "1",
                 Email = "test@gmail.com",
-                HashedPassword = "password",
-                Salt = "dfsd",
                 FirstName = "Tom",
                 LastName = "Cruise",
                 PhoneNumber = "503698745"
             };
             Student s2 = new Student()
             {
+                Id = "2",
                 Email = "test2@gmail.com",
-                HashedPassword = "password2",
-                Salt = "dfsd",
                 FirstName = "Patrick",
                 LastName = "Swayze",
                 PhoneNumber = "503698745"

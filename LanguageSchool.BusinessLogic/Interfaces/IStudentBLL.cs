@@ -11,9 +11,10 @@ namespace LanguageSchool.BusinessLogic
     public interface IStudentBLL
     {
         List<Student> GetAll();
-        void Add(string firstName, string lastName, string email, string phoneNumber = "");
-        void SignForClass(int studentID, Class languageClass);
-        void Update(int id, string firstName, string lastName, string email, string phoneNumber = "");
+        void Add(string id, string firstName, string lastName, string email, string phoneNumber = "");
+        string SignForClass(string studentId, int classId);
+        string UnsubscribeFromClass(string studentId, int classId);
+        void Update(string id, string firstName, string lastName, string email, string phoneNumber = "");
         (List<Student> students, int pageCount) Search(StudentFilter filter);
 
     }

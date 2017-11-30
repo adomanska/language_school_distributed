@@ -13,109 +13,100 @@ namespace LanguageSchool.DataAccess
     public enum SearchBy { Email, LastName };
     public class StudentDAL: IStudentDAL
     {
-        IContextProvider contextProvider;
+        ILanguageSchoolContext _context;
 
-        public StudentDAL(IContextProvider provider)
+        public StudentDAL(ILanguageSchoolContext context)
         {
-            contextProvider = provider;
+            _context = context;
         }
         public List<Student> GetAll()
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                return db.Students.ToList();
-            }
+           return _context.Students.ToList();
         }
         public void Add(Student student)
         {
-            using (var db = contextProvider.GetNewContext())
+            try
             {
-                try
-                {
-                    db.Students.Add(student);
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    throw new Exception("Student with such email address already exists in the database");
-                }
+                _context.Students.Add(student);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("Student with such email address already exists in the database");
             }
         }
 
         public Student FindByEmail(string email)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                Student student = db.Students.FirstOrDefault(x => x.Email == email);
-                return student;
-            }
+            Student student = _context.Students.FirstOrDefault(x => x.Email == email);
+            return student;
         }
 
-        public Student FindByID(int id)
+        public Student FindByID(string id)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                Student student = db.Students.FirstOrDefault(x => x.Id == id);
-                return student;
-            }
+            Student student = _context.Students.FirstOrDefault(x => x.Id == id);
+            return student;
         }
 
-        public void Update(int id, string firstName, string lastName, string email, string phoneNumber)
+        public void Update(string id, string firstName, string lastName, string email, string phoneNumber)
         {
-            using (var db = contextProvider.GetNewContext())
+            try
             {
-                try
-                {
-                    Student existingStudent = db.Students.Where(x => x.Id == id).FirstOrDefault();
+                Student existingStudent = _context.Students.Where(x => x.Id == id).FirstOrDefault();
 
-                    existingStudent.FirstName = firstName;
-                    existingStudent.LastName = lastName;
-                    existingStudent.Email = email;
-                    existingStudent.PhoneNumber = phoneNumber;
+                existingStudent.FirstName = firstName;
+                existingStudent.LastName = lastName;
+                existingStudent.Email = email;
+                existingStudent.PhoneNumber = phoneNumber;
 
-                    if (db.Entry(existingStudent) != null)
-                        db.Entry(existingStudent).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    throw new Exception("Update failed");
-                }
+                if (_context.Entry(existingStudent) != null)
+                    _context.Entry(existingStudent).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
             }
-            
+            catch
+            {
+                throw new Exception("Update failed");
+            }
         }
 
         public List<Student> Search(SearchBy type, string text, bool sorted)
         {
-            using (var db = contextProvider.GetNewContext())
+            var query = _context.Students.AsQueryable();
+            Expression<Func<Student, string>> expression;
+            if (type == SearchBy.Email)
             {
-                var query = db.Students.AsQueryable();
-                Expression<Func<Student, string>> expression;
-                if (type == SearchBy.Email)
-                {
-                    expression = x => x.Email;
-                    if (text != null) query = query.Where(x => x.Email.Contains(text));
-                }
-                else
-                {
-                    expression = x => x.LastName;
-                    if (text != null) query = query.Where(x => x.LastName.Contains(text));
-                }
-                query = query.OrderBy(x => x.Id);
-                if (sorted)
-                    query = query.OrderBy(expression);
-                return query.ToList();
+                expression = x => x.Email;
+                if (text != null) query = query.Where(x => x.Email.Contains(text));
             }
+            else
+            {
+                expression = x => x.LastName;
+                if (text != null) query = query.Where(x => x.LastName.Contains(text));
+            }
+            query = query.OrderBy(x => x.Id);
+            if (sorted)
+                query = query.OrderBy(expression);
+            return query.ToList();
         }
 
         public void SignForClass(Student student, Class languageClass)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                student.Classes.Add(languageClass);
-                db.SaveChanges();
-            }
+            student.Classes.Add(languageClass);
+            _context.SaveChanges();
+        }
+
+        public void UnsubscribeFromClass(Student student, Class languageCLass)
+        {
+            student.Classes.Remove(languageCLass);
+            _context.SaveChanges();
+        }
+
+        public Class GetClassByID(int ID)
+        {
+            Class _class;
+            _class = _context.Classes.Where(x => x.Id == ID).Select(x => x).FirstOrDefault();
+            return _class;
         }
     }
-    
+
 }

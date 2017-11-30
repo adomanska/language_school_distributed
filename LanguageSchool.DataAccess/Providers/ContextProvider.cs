@@ -6,7 +6,7 @@ using LanguageSchool.Model;
 
 namespace LanguageSchool.DataAccess.Providers
 {
-    public class ContextProvider<T> : IContextProvider
+    public class ContextProvider<T> : IlanguageSchoolContext
         where T : ILanguageSchoolContext, new()
     {
         public ILanguageSchoolContext GetNewContext()

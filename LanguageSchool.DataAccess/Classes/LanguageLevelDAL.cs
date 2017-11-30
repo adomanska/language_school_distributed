@@ -11,8 +11,8 @@ namespace LanguageSchool.DataAccess
 {
     public class LanguageLevelDAL: ILanguageLevelDAL
     {
-        IContextProvider contextProvider;
-        public LanguageLevelDAL(IContextProvider provider)
+        IlanguageSchoolContext contextProvider;
+        public LanguageLevelDAL(IlanguageSchoolContext provider)
         {
             contextProvider = provider;
         }

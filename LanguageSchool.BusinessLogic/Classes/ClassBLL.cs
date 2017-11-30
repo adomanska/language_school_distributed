@@ -116,7 +116,7 @@ namespace LanguageSchool.BusinessLogic
             return result;
         }
 
-        public List<ClassBasicDataDto> GetSuggestedClasses(int studentID, int count)
+        public List<ClassBasicDataDto> GetSuggestedClasses(string studentID, int count)
         {
             if (count <= 0)
                 throw new ArgumentException("Invalid argument: count has to be > 0");

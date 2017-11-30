@@ -15,7 +15,7 @@ namespace LanguageSchool.DataAccess
         List<Class> GetClasess(string language, string level);
         List<Class> Search(string className, int languageID, int languageLevelID);
         List<Class> GetTopClasses(int count);
-        List<Class> GetSuggestedClasses(int id);
+        List<Class> GetSuggestedClasses(string id);
         List<Student> GetStudents(int id);
         Language GetLanguage(int id);
         LanguageLevel GetLanguageLevel(int id);

@@ -19,8 +19,6 @@ namespace LanguageSchool.WebApi.Controllers
                 Student s = new Student()
                 {
                     Email = "email@gmail.com",
-                    HashedPassword = "password",
-                    Salt = "dfsd",
                     FirstName = "Monica",
                     LastName = "Cruise",
                     PhoneNumber = "503698745"

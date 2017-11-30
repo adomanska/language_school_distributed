@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using LanguageSchool.BusinessLogic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LanguageSchool.WebApi.Controllers
 {
@@ -13,10 +15,11 @@ namespace LanguageSchool.WebApi.Controllers
     public class AccountController : ApiController
     {
         private AuthRepository _repo = null;
-
-        public AccountController()
+        private IStudentBLL _studentService;
+        public AccountController(IStudentBLL studentService)
         {
             _repo = new AuthRepository();
+            _studentService = studentService;
         }
 
         // POST api/Account/Register
@@ -38,6 +41,8 @@ namespace LanguageSchool.WebApi.Controllers
                 return errorResult;
             }
 
+            IdentityUser user = await _repo.FindUser(userModel.UserName, userModel.Password);
+            _studentService.Add(user.Id, userModel.FirstName, userModel.LastName, userModel.Email, userModel.PhoneNumber);
             return Ok();
         }
 

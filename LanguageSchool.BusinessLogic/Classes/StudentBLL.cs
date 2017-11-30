@@ -14,10 +14,12 @@ namespace LanguageSchool.BusinessLogic
 {
     public class StudentBLL: IStudentBLL
     {
-        private IStudentDAL studentDAL;
-        public StudentBLL(IStudentDAL _studentDAL)
+        private IStudentDAL _studentDAL;
+        private IClassDAL _classDAL;
+        public StudentBLL(IStudentDAL studentDAL, IClassDAL classDAL)
         {
-            studentDAL = _studentDAL;
+            _studentDAL = studentDAL;
+            _classDAL = classDAL;
         }
 
         private bool IsValidData(string firstName, string lastName, string email, string phoneNumber = "")
@@ -38,24 +40,25 @@ namespace LanguageSchool.BusinessLogic
         {
             try
             {
-                return studentDAL.GetAll();
+                return _studentDAL.GetAll();
             }
             catch
             {
                 throw;
             }
         }
-        public void Add(string firstName, string lastName, string email, string phoneNumber="")
+        public void Add(string id, string firstName, string lastName, string email, string phoneNumber="")
         {
             try
             {
-                Student existingStudent = studentDAL.FindByEmail(email);
+                Student existingStudent = _studentDAL.FindByEmail(email);
                 if (existingStudent != null)
                     throw new Exception("Student with such email already exists");
 
                 IsValidData(firstName, lastName, email, phoneNumber);
 
                 Student student = new Student {
+                    Id = id,
                     FirstName = firstName,
                     LastName = lastName,
                     Email = email,
@@ -63,7 +66,7 @@ namespace LanguageSchool.BusinessLogic
                     Classes = new Collection<Class>()
                 };
 
-                studentDAL.Add(student);
+                _studentDAL.Add(student);
             }
             catch
             {
@@ -71,26 +74,58 @@ namespace LanguageSchool.BusinessLogic
             }
         }
 
-        public void SignForClass(int studentID, Class languageClass)
-        {
-            Student student = studentDAL.FindByID(studentID);
-            if (student != null && !student.Classes.Contains(languageClass))
-                studentDAL.SignForClass(student, languageClass);
-            else
-                throw new Exception("Student is already registered for this class");
-        }
-        
+        //public void SignForClass(string studentID, Class languageClass)
+        //{
+        //    Student student = studentDAL.FindByID(studentID);
+        //    if (student != null && !student.Classes.Contains(languageClass))
+        //        studentDAL.SignForClass(student, languageClass);
+        //    else
+        //        throw new Exception("Student is already registered for this class");
+        //}
 
-        public void Update(int id, string firstName, string lastName, string email, string phoneNumber = "")
+        public string SignForClass(string studentId, int classId)
+        {
+            Student student = _studentDAL.FindByID(studentId);
+            Class languageClass = _studentDAL.GetClassByID(classId);
+            if (student == null)
+                return "Studen not found";
+            if (languageClass == null)
+                return "Class not found";
+            if (student.Classes.Contains(languageClass))
+                return "Student is already registered for this class";
+            if (languageClass.Students.Count >= languageClass.StudentsMax)
+                return "No vacancies";
+
+            _studentDAL.SignForClass(student, languageClass);
+            return null;
+        }
+
+        public string UnsubscribeFromClass(string studentId, int classId)
+        {
+            Student student = _studentDAL.FindByID(studentId);
+            Class languageClass = _studentDAL.GetClassByID(classId);
+            if (student == null)
+                return "Studen not found";
+            if (languageClass == null)
+                return "Class not found";
+            if (!student.Classes.Contains(languageClass))
+                return "Student is not registered for this class";
+
+            _studentDAL.UnsubscribeFromClass(student, languageClass);
+            return null;
+        }
+
+
+        public void Update(string id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             try
             {
-                Student existingStudent = studentDAL.FindByEmail(email);
+                Student existingStudent = _studentDAL.FindByEmail(email);
                 if (existingStudent != null && existingStudent.Id != id)
                     throw new Exception("Student with such email already exists");
 
                 IsValidData(firstName, lastName, email, phoneNumber);
-                studentDAL.Update(id, firstName, lastName, email, phoneNumber == "" ? null : phoneNumber);
+                _studentDAL.Update(id, firstName, lastName, email, phoneNumber == "" ? null : phoneNumber);
             }
             catch
             {
@@ -100,7 +135,7 @@ namespace LanguageSchool.BusinessLogic
 
         public (List<Student> students, int pageCount) Search(StudentFilter filter)
         {
-            var query = studentDAL.Search(filter.Filter, filter.Text, filter.IsSorted);
+            var query = _studentDAL.Search(filter.Filter, filter.Text, filter.IsSorted);
             var count = Math.Ceiling(((double)query.Count()) / filter.PageSize);
             var list = query.Skip(filter.PageSize * (filter.PageNumber - 1)).Take(filter.PageSize).ToList();
 

@@ -7,7 +7,7 @@ using LanguageSchool.Model;
 
 namespace LanguageSchool.DataAccess.Providers
 {
-    public interface IContextProvider
+    public interface IlanguageSchoolContext
     {
         ILanguageSchoolContext GetNewContext();
     }

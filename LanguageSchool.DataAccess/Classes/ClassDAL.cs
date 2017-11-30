@@ -11,40 +11,34 @@ namespace LanguageSchool.DataAccess
 {
     public class ClassDAL: IClassDAL
     {
-        private IContextProvider contextProvider;
+        private ILanguageSchoolContext _context;
 
-        public ClassDAL(IContextProvider provider)
+        public ClassDAL(ILanguageSchoolContext context)
         {
-            contextProvider = provider;
+            _context = context;
         }
         public List<Class> GetAll()
         {
             IQueryable<Class> classes;
-            using (var db = contextProvider.GetNewContext())
-            {
-                classes = db.Classes;
+            classes = _context.Classes;
 
-                return classes.ToList();
-            }
+            return classes.ToList();
         }
 
         public Class GetByID(int ID)
         {
             Class _class;
-            using (var db = contextProvider.GetNewContext())
-            {
-                _class = db.Classes.Where(x => x.Id == ID).Select(x => x).FirstOrDefault();
-            }
+            _class = _context.Classes.Where(x => x.Id == ID).Select(x => x).FirstOrDefault();
+            
             return _class;
         }
         
         public List<Class> GetClasess(string language, string level)
         {
             List<Class> classes;
-            using (var db = contextProvider.GetNewContext())
-            {
-                classes = db.Classes.Where(x => x.LanguageLevel.LanguageLevelSignature == level && x.Language.LanguageName == language).ToList();
-            }
+            
+            classes = _context.Classes.Where(x => x.LanguageLevel.LanguageLevelSignature == level && x.Language.LanguageName == language).ToList();
+            
             return classes;
         }
 
@@ -52,70 +46,57 @@ namespace LanguageSchool.DataAccess
         {
             IQueryable<Class> resultCollection;
             List<Class> classes;
-            using (var db = contextProvider.GetNewContext())
-            {
-                resultCollection = db.Classes.AsQueryable();
+            resultCollection = _context.Classes.AsQueryable();
 
-                if (languageID != -1)
-                    resultCollection = resultCollection.Where(x => x.LanguageRefID == languageID);
-                if (languageLevelID != -1)
-                    resultCollection = resultCollection.Where(x => x.LanguageLevelRefID == languageLevelID);
-                if (className != null)
-                    resultCollection = resultCollection.Where(x => x.ClassName.Contains(className));
-                classes = resultCollection.ToList();
-            }
+            if (languageID != -1)
+                resultCollection = resultCollection.Where(x => x.LanguageRefID == languageID);
+            if (languageLevelID != -1)
+                resultCollection = resultCollection.Where(x => x.LanguageLevelRefID == languageLevelID);
+            if (className != null)
+                resultCollection = resultCollection.Where(x => x.ClassName.Contains(className));
+            classes = resultCollection.ToList();
+            
             return classes;
         }
 
         public List<Class> GetTopClasses(int count)
         {
             List<Class> topClasses;
-            using (var db = contextProvider.GetNewContext())
-            {
-                var classes = db.Classes.OrderByDescending(x => x.Students.Count);
-                topClasses = classes.Take(Math.Min(classes.Count(), count)).ToList();
-            }
+            
+            var classes = _context.Classes.OrderByDescending(x => x.Students.Count);
+            topClasses = classes.Take(Math.Min(classes.Count(), count)).ToList();
+            
             return topClasses;
         }
 
-        public List<Class> GetSuggestedClasses(int id)
+        public List<Class> GetSuggestedClasses(string id)
         {
             List<Class> suggestedClasses;
-            using (var db = contextProvider.GetNewContext())
-            {
-                Student s = db.Students.Where(x => x.Id == id).FirstOrDefault();
-                if (s == null)
-                    throw new ArgumentException("Invalid id");
-                suggestedClasses = s.Classes.SelectMany(x => x.Students).SelectMany(y => y.Classes).Distinct().Except(s.Classes).AsQueryable().ToList();
-            }
+            
+            Student s = _context.Students.Where(x => x.Id == id).FirstOrDefault();
+            if (s == null)
+                throw new ArgumentException("Invalid id");
+            suggestedClasses = s.Classes.SelectMany(x => x.Students).SelectMany(y => y.Classes).Distinct().Except(s.Classes).AsQueryable().ToList();
+            
             return suggestedClasses;
         }
 
         public List<Student> GetStudents(int id)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
-                return _class.Students.ToList();
-            }
+            var _class = _context.Classes.Where(x => x.Id == id).FirstOrDefault();
+            return _class.Students.ToList();
         }
 
         public Language GetLanguage(int id)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
-                return _class.Language;
-            }
+            var _class = _context.Classes.Where(x => x.Id == id).FirstOrDefault();
+            return _class.Language;
         }
 
         public LanguageLevel GetLanguageLevel(int id)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                var _class = db.Classes.Where(x => x.Id == id).FirstOrDefault();
-                return _class.LanguageLevel;
-            }
+            var _class = _context.Classes.Where(x => x.Id == id).FirstOrDefault();
+            return _class.LanguageLevel;
         }
      
     }

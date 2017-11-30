@@ -12,9 +12,9 @@ namespace LanguageSchool.DataAccess
 {
     public class LanguageDAL: ILanguageDAL
     {
-        private IContextProvider contextProvider;
+        private IlanguageSchoolContext contextProvider;
 
-        public LanguageDAL(IContextProvider provider)
+        public LanguageDAL(IlanguageSchoolContext provider)
         {
             contextProvider = provider;
         }
