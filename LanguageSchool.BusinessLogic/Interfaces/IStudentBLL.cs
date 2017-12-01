@@ -16,6 +16,7 @@ namespace LanguageSchool.BusinessLogic
         string UnsubscribeFromClass(string studentId, int classId);
         void Update(string id, string firstName, string lastName, string email, string phoneNumber = "");
         (List<Student> students, int pageCount) Search(StudentFilter filter);
+        int[] GetClasses(string id);
 
     }
 }

@@ -18,6 +18,7 @@ namespace LanguageSchool.DataAccess
         Student FindByID(string id);
         List<Student> Search(SearchBy type, string text, bool sorted);
         Class GetClassByID(int ID);
+        List<Class> GetClasses(string id);
 
     }
 }

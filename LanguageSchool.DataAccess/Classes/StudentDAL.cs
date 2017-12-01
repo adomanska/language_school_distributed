@@ -107,6 +107,15 @@ namespace LanguageSchool.DataAccess
             _class = _context.Classes.Where(x => x.Id == ID).Select(x => x).FirstOrDefault();
             return _class;
         }
+
+        public List<Class> GetClasses(string id)
+        {
+            var student =  _context.Students.Where(x => x.Id == id).FirstOrDefault();
+            if (student != null)
+                return student.Classes.ToList();
+            else
+                return null;
+        }
     }
 
 }

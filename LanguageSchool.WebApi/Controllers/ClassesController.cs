@@ -28,9 +28,13 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult Get()
         {
             var classes = _classService.GetAll();
-            return Ok(classes);
+            if(classes!=null)
+                return Ok(classes);
+            else
+                return NotFound();
         }
 
+        [Route("api/classes/{id:int}"), HttpGet]
         public IHttpActionResult Get(int id)
         {
             var _class = _classService.GetByID(id);
@@ -43,13 +47,25 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult Get(string language, string languageLevel)
         {
             var classes = _classService.GetClasses(language, languageLevel);
+            if (classes == null)
+                return NotFound();
             return Ok(classes);
         }
 
         [Route("api/classes/top/{count:int}"),HttpGet]
         public IHttpActionResult GetTop(int count)
         {
-            var topClasses = _classService.GetTopClasses(count);
+            List<ClassBasicDataDto> topClasses;
+            try
+            {
+                topClasses = _classService.GetTopClasses(count);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            if (topClasses == null)
+                return NotFound();
             return Ok(topClasses);
         }
 
@@ -58,7 +74,15 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult GetSuggested()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
-            var suggestedClasses = _classService.GetSuggestedClasses(userId, 1);
+            List<ClassBasicDataDto> suggestedClasses;
+            try
+            {
+                suggestedClasses = _classService.GetSuggestedClasses(userId, 1);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             return Ok(suggestedClasses);
         }
 

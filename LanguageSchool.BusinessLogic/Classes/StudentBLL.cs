@@ -88,7 +88,7 @@ namespace LanguageSchool.BusinessLogic
             Student student = _studentDAL.FindByID(studentId);
             Class languageClass = _studentDAL.GetClassByID(classId);
             if (student == null)
-                return "Studen not found";
+                return "Student not found";
             if (languageClass == null)
                 return "Class not found";
             if (student.Classes.Contains(languageClass))
@@ -105,7 +105,7 @@ namespace LanguageSchool.BusinessLogic
             Student student = _studentDAL.FindByID(studentId);
             Class languageClass = _studentDAL.GetClassByID(classId);
             if (student == null)
-                return "Studen not found";
+                return "Student not found";
             if (languageClass == null)
                 return "Class not found";
             if (!student.Classes.Contains(languageClass))
@@ -140,6 +140,15 @@ namespace LanguageSchool.BusinessLogic
             var list = query.Skip(filter.PageSize * (filter.PageNumber - 1)).Take(filter.PageSize).ToList();
 
             return (list, (int)count);
+        }
+
+        public int[] GetClasses(string id)
+        {
+            var classes = _studentDAL.GetClasses(id);
+            if (classes != null)
+                return classes.Select(x => x.Id).ToArray();
+            else
+                return null;
         }
     }
 }
