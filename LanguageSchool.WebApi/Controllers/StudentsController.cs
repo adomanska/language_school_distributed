@@ -20,7 +20,8 @@ namespace LanguageSchool.WebApi.Controllers
             _classService = classService;
         }
 
-        [Route("api/students/classes"), HttpGet]
+        [Authorize]
+        [Route("api/student/classes"), HttpGet]
         public IHttpActionResult GetClasses()
         {
             string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
@@ -29,5 +30,33 @@ namespace LanguageSchool.WebApi.Controllers
                 return BadRequest("Student not found");
             return Ok(classesIDs.Select(x => _classService.GetByID(x)));
         }
+
+        [Authorize]
+        [Route("api/student"), HttpGet]
+        public IHttpActionResult GetInformations()
+        {
+            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var studentInfo = _studentService.GetById(userId);
+            if(studentInfo == null)
+                return BadRequest("Student not found");
+
+            studentInfo.UserName = System.Web.HttpContext.Current.User.Identity.GetUserName();
+            return Ok(studentInfo);
+        }
+
+        [Authorize]
+        [Route("api/student"), HttpPut]
+        public IHttpActionResult PutInformations(EditProfileModel editModel)
+        {
+            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            string error = _studentService.Update(userId, editModel.FirstName, editModel.LastName, editModel.Email, editModel.PhoneNumber);
+
+            if (error != null)
+                return BadRequest(error);
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Data.Entity;
 using LanguageSchool.Presentation;
 using System.Collections.ObjectModel;
+using LanguageSchool.Shared.Dtos;
 
 namespace LanguageSchool.BusinessLogic
 {
@@ -46,6 +47,22 @@ namespace LanguageSchool.BusinessLogic
             {
                 throw;
             }
+        }
+
+        public StudentDataDto GetById (string id)
+        {
+            Student s = _studentDAL.GetById(id);
+
+            StudentDataDto studentData = new StudentDataDto()
+            {
+                Id = s.Id,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Email = s.Email,
+                PhoneNumber = s.PhoneNumber
+            };
+
+            return studentData;
         }
         public void Add(string id, string firstName, string lastName, string email, string phoneNumber="")
         {
@@ -85,7 +102,7 @@ namespace LanguageSchool.BusinessLogic
 
         public string SignForClass(string studentId, int classId)
         {
-            Student student = _studentDAL.FindByID(studentId);
+            Student student = _studentDAL.GetById(studentId);
             Class languageClass = _studentDAL.GetClassByID(classId);
             if (student == null)
                 return "Student not found";
@@ -102,7 +119,7 @@ namespace LanguageSchool.BusinessLogic
 
         public string UnsubscribeFromClass(string studentId, int classId)
         {
-            Student student = _studentDAL.FindByID(studentId);
+            Student student = _studentDAL.GetById(studentId);
             Class languageClass = _studentDAL.GetClassByID(classId);
             if (student == null)
                 return "Student not found";
@@ -116,20 +133,25 @@ namespace LanguageSchool.BusinessLogic
         }
 
 
-        public void Update(string id, string firstName, string lastName, string email, string phoneNumber = "")
+        public string Update(string id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             try
             {
-                Student existingStudent = _studentDAL.FindByEmail(email);
+                Student existingStudent = _studentDAL.GetById(id);
                 if (existingStudent != null && existingStudent.Id != id)
                     throw new Exception("Student with such email already exists");
 
+                firstName = !String.IsNullOrEmpty(firstName) ? firstName : existingStudent.FirstName;
+                lastName = !String.IsNullOrEmpty(lastName) ? lastName : existingStudent.LastName;
+                email = !String.IsNullOrEmpty(email) ? email : existingStudent.Email;
+
                 IsValidData(firstName, lastName, email, phoneNumber);
                 _studentDAL.Update(id, firstName, lastName, email, phoneNumber == "" ? null : phoneNumber);
+                return null;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                return ex.Message;
             }
         }
 

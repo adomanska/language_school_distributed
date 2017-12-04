@@ -51,6 +51,7 @@ namespace LanguageSchool.BusinessLogic
 
             ClassDataDto classData = new ClassDataDto()
             {
+                Id = c.Id,
                 ClassName = c.ClassName,
                 Language = classDAL.GetLanguage(c.Id).LanguageName,
                 LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,

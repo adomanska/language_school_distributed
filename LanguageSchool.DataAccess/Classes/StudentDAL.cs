@@ -42,7 +42,7 @@ namespace LanguageSchool.DataAccess
             return student;
         }
 
-        public Student FindByID(string id)
+        public Student GetById(string id)
         {
             Student student = _context.Students.FirstOrDefault(x => x.Id == id);
             return student;

@@ -15,7 +15,7 @@ namespace LanguageSchool.DataAccess
         void UnsubscribeFromClass(Student student, Class languageCLass);
         void Update(string ID, string firstName, string lastName, string email, string phoneNumber);
         Student FindByEmail(string email);
-        Student FindByID(string id);
+        Student GetById(string id);
         List<Student> Search(SearchBy type, string text, bool sorted);
         Class GetClassByID(int ID);
         List<Class> GetClasses(string id);

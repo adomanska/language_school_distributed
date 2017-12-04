@@ -87,7 +87,7 @@ namespace LanguageSchool.WebApi.Controllers
         }
 
         [Authorize]
-        [Route("api/classes/sign/{id:int}"), HttpGet]
+        [Route("api/classes/{id:int}"), HttpPost]
         public IHttpActionResult SignFor(int id)
         {
             if (id <= 0)
@@ -103,7 +103,7 @@ namespace LanguageSchool.WebApi.Controllers
 
         [Authorize]
         [Route("api/classes/{id:int}"), HttpDelete]
-        public IHttpActionResult Unsubscribe(int id)
+        public IHttpActionResult DeleteSubscription(int id)
         {
             if (id <= 0)
                 return BadRequest("Invalid class id");

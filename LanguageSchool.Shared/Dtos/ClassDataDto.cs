@@ -8,6 +8,7 @@ namespace LanguageSchool.Shared.Dtos
 {
     public class ClassDataDto
     {
+        public int Id { get; set; }
         public string ClassName { get; set; }
         public string Language { get; set; }
         public string LanguageLevel { get; set; }
