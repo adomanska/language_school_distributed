@@ -25,6 +25,7 @@ namespace LanguageSchool.WebApi.Controllers
             _classService = classService;
         }
 
+        [RequireHttps]
         public IHttpActionResult Get()
         {
             var classes = _classService.GetAll();
