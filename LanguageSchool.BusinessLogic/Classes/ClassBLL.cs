@@ -20,20 +20,25 @@ namespace LanguageSchool.BusinessLogic
         {
             classDAL = _classDAL;
         }
-        public List<ClassBasicDataDto> GetAll()
+        public List<ClassDataDto> GetAll()
         {
             try
             {
                 var classes = classDAL.GetAll();
-                List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+                List<ClassDataDto> result = new List<ClassDataDto>();
 
                 foreach (Class c in classes)
                 {
-                    ClassBasicDataDto classData = new ClassBasicDataDto()
+                    ClassDataDto classData = new ClassDataDto()
                     {
+                        Id = c.Id,
                         ClassName = c.ClassName,
                         Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                        StartTime = c.StartTime,
+                        EndTime = c.EndTime,
+                        StudentsCount = GetStudentsCount(c.Id),
+                        StudentsMax = c.StudentsMax
                     };
                     result.Add(classData);
                 }
@@ -77,7 +82,8 @@ namespace LanguageSchool.BusinessLogic
                     {
                         ClassName = c.ClassName,
                         Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                        StudentsCount = GetStudentsCount(c.Id)
                     };
                     result.Add(classData);
                 }
@@ -130,9 +136,11 @@ namespace LanguageSchool.BusinessLogic
                 {
                     ClassBasicDataDto classData = new ClassBasicDataDto()
                     {
+                        Id = c.Id,
                         ClassName = c.ClassName,
                         Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                        StudentsCount = GetStudentsCount(c.Id)
                     };
                     result.Add(classData);
                 }
@@ -159,9 +167,11 @@ namespace LanguageSchool.BusinessLogic
                 {
                     ClassBasicDataDto classData = new ClassBasicDataDto()
                     {
+                        Id = c.Id,
                         ClassName = c.ClassName,
                         Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                        StudentsCount = GetStudentsCount(c.Id)
                     };
                     result.Add(classData);
                 }
