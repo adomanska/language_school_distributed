@@ -11,7 +11,7 @@ namespace LanguageSchool.BusinessLogic
 {
     public interface IClassBLL
     {
-        List<ClassBasicDataDto> GetAll();
+        List<ClassDataDto> GetAll();
         ClassDataDto GetByID(int ID);
         List<ClassBasicDataDto> GetClasses(string language, string level);
         List<ClassBasicDataDto> Search(ClassFilter filter);
