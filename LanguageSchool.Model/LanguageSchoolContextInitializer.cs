@@ -18,6 +18,8 @@ namespace LanguageSchool.Model
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "B2" });
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "C1" });
             context.LanguageLevels.Add(new LanguageLevel { LanguageLevelSignature = "C2" });
+
+            context.SaveChanges();
         }
     }
 }
