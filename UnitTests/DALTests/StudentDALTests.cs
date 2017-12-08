@@ -25,15 +25,15 @@ namespace UnitTests
         public void GetAll_Always_ReturnAllStudents()
         {
             var result = studentDAL.GetAll().Count();
-            //Assert.That(result, Is.EqualTo(context.Students.Count()));
+            Assert.That(result, Is.EqualTo(context.Students.Count()));
         }
 
         [Test]
         public void GetAll_Always_ReturnsCorrectEmailOfFirstStudent()
         {
-            //var result = studentDAL.GetAll();
-            //var email = result.First().Email;
-            //Assert.That(email, Is.EqualTo("kate@gmail.com"));
+            var result = studentDAL.GetAll();
+            var email = result.First().Email;
+            Assert.That(email, Is.EqualTo("kate@gmail.com"));
         }
 
         [Test]

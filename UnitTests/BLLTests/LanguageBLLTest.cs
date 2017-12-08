@@ -26,21 +26,21 @@ namespace UnitTests
             {
                 new Language()
                 {
-                    LanguageID=1,
+                    Id=1,
                     LanguageName = "English"
                 },
                 new Language()
                 {
-                    LanguageID=2,
+                    Id=2,
                     LanguageName="Spanish"
                 },
                 new Language()
                 {
-                    LanguageID=3,
+                    Id=3,
                     LanguageName="Russian"
                 }
             };
-            mockLanguageDAL.Setup(mr => mr.GetAll()).Returns(languages.AsQueryable());
+            mockLanguageDAL.Setup(mr => mr.GetAll()).Returns(languages);
             languageBLL = new LanguageBLL(mockLanguageDAL.Object);
         }
 
@@ -51,27 +51,11 @@ namespace UnitTests
             Assert.That(result, Is.EqualTo(3));
         }
 
-        [TestCase("English", true)]
-        [TestCase("Italian", false)]
-        public void Exists_Always_ReturnsExpectedResult(string language, bool exist)
-        {
-            var result = languageBLL.Exists(language);
-            Assert.That(result, Is.EqualTo(exist));
-        }
-
-        [TestCase("French", true)]
-        [TestCase("enlish", false)]
-        public void IsValidLanguage_Always_ReturnsExpectedResult(string language, bool isValid)
-        {
-            var result = languageBLL.IsValidLanguage(language);
-            Assert.That(result, Is.EqualTo(isValid));
-        }
-
         [TestCase(-1)]
         [TestCase(10)]
         public void GetById_InvalidId_ReturnsNull(int id)
         {
-            mockLanguageDAL.Setup(mr => mr.GetById(It.IsAny<int>())).Returns((int ID) => languages.Where(x => x.LanguageID == ID).FirstOrDefault());
+            mockLanguageDAL.Setup(mr => mr.GetById(It.IsAny<int>())).Returns((int ID) => languages.Where(x => x.Id == ID).FirstOrDefault());
             var result = languageBLL.GetById(id);
             Assert.IsNull(result);
         }
@@ -80,7 +64,7 @@ namespace UnitTests
         [TestCase(2)]
         public void GetById_ValidId_ReturnsLanguage(int id)
         {
-            mockLanguageDAL.Setup(mr => mr.GetById(It.IsAny<int>())).Returns((int ID) => languages.Where(x => x.LanguageID == ID).FirstOrDefault());
+            mockLanguageDAL.Setup(mr => mr.GetById(It.IsAny<int>())).Returns((int ID) => languages.Where(x => x.Id == ID).FirstOrDefault());
             var result = languageBLL.GetById(id);
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(Language), result);

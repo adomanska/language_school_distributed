@@ -24,32 +24,32 @@ namespace UnitTests
             {
                 new LanguageLevel()
                 {
-                    LanguageLevelID=1,
+                    Id=1,
                     LanguageLevelSignature="A1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=2,
+                    Id=2,
                     LanguageLevelSignature="A2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=3,
+                    Id=3,
                     LanguageLevelSignature="B1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=4,
+                    Id=4,
                     LanguageLevelSignature="B2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=5,
+                    Id=5,
                     LanguageLevelSignature="C1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=6,
+                    Id=6,
                     LanguageLevelSignature="C2"
                 }
             };
@@ -61,7 +61,7 @@ namespace UnitTests
         [Test]
         public void GetAll_Always_ReturnsAllLanguageLevels()
         {
-            mockLanguageLevelDAL.Setup(mr => mr.GetAll()).Returns(languageLevels.AsQueryable());
+            mockLanguageLevelDAL.Setup(mr => mr.GetAll()).Returns(languageLevels);
             var result = languageLevelBLL.GetAll().Count;
             Assert.That(result, Is.EqualTo(6));
         }

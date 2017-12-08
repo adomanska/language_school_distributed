@@ -38,15 +38,8 @@ namespace LanguageSchool.BusinessLogic
             return true;
         }
         public List<Student> GetAll()
-        {
-            try
-            {
-                return _studentDAL.GetAll();
-            }
-            catch
-            {
-                throw;
-            }
+        { 
+            return _studentDAL.GetAll();
         }
 
         public StudentDataDto GetById (string id)
@@ -137,7 +130,7 @@ namespace LanguageSchool.BusinessLogic
         {
             try
             {
-                Student existingStudent = _studentDAL.GetById(id);
+                Student existingStudent = _studentDAL.FindByEmail(email);
                 if (existingStudent != null && existingStudent.Id != id)
                     throw new Exception("Student with such email already exists");
 

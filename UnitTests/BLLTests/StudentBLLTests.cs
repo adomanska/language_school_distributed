@@ -16,12 +16,14 @@ namespace UnitTests
     public class StudentBLLTests
     {
         Mock<IStudentDAL> mockStudentDAL;
+        Mock<IClassDAL> mockClassDAL;
         StudentBLL studentBLL;
 
         public StudentBLLTests()
         {
             mockStudentDAL = new Mock<IStudentDAL>();
-            studentBLL = new StudentBLL(mockStudentDAL.Object);
+            mockClassDAL = new Mock<IClassDAL>();
+            studentBLL = new StudentBLL(mockStudentDAL.Object, mockClassDAL.Object);
         }
 
         
@@ -33,7 +35,7 @@ namespace UnitTests
             {
                 new Student()
                 {
-                   ID = 1,
+                   Id = "1",
                    FirstName = "Kate",
                    LastName = "Smith",
                    Email = "kate@gmail.com",
@@ -41,7 +43,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 2,
+                   Id = "2",
                    FirstName = "Tom",
                    LastName = "Brown",
                    Email = "tomb@gmail.com",
@@ -49,7 +51,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 3,
+                   Id = "3",
                    FirstName = "Elizabeth",
                    LastName = "Jones",
                    Email = "elizabeth@gmail.com",
@@ -57,7 +59,7 @@ namespace UnitTests
                 }
             };
 
-            mockStudentDAL.Setup(x => x.GetAll()).Returns(mockStudentList.AsQueryable);
+            mockStudentDAL.Setup(x => x.GetAll()).Returns(mockStudentList);
             var result = studentBLL.GetAll();
             Assert.That(result.Count, Is.EqualTo(3));
         }
@@ -68,7 +70,7 @@ namespace UnitTests
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns(
                 new Student()
                 {
-                    ID = 2,
+                    Id = "2",
                     FirstName = "Tom",
                     LastName = "Brown",
                     Email = "tomb@gmail.com",
@@ -102,7 +104,7 @@ namespace UnitTests
         {
             Class c = new Class()
             {
-                ClassID = 1,
+                Id = 1,
                 ClassName = "English M1",
                 LanguageRefID = 1,
                 LanguageLevelRefID = 1,
@@ -114,7 +116,7 @@ namespace UnitTests
 
             Student s = new Student()
             {
-                ID = 2,
+                Id = "2",
                 FirstName = "Tom",
                 LastName = "Brown",
                 Email = "tomb@gmail.com",
@@ -124,10 +126,11 @@ namespace UnitTests
 
             s.Classes.Add(c);
 
-            mockStudentDAL.Setup(x => x.FindByID(s.ID)).Returns(s);
+            mockStudentDAL.Setup(x => x.GetById(s.Id)).Returns(s);
+            mockStudentDAL.Setup(x => x.GetClassByID(c.Id)).Returns(c);
             mockStudentDAL.Setup(x => x.SignForClass(s, c));
-
-            Assert.Throws<Exception>(() => studentBLL.SignForClass(s.ID, c));
+            var result = studentBLL.SignForClass(s.Id, c.Id);
+            Assert.That(result, Is.EqualTo("Student is already registered for this class"));
         }
 
         [TestCase(100, "Sam", "Smith", "tomb@gmail.com", "545898452")]
@@ -136,33 +139,36 @@ namespace UnitTests
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns(
                 new Student()
                 {
-                    ID = 2,
+                    Id = "2",
                     FirstName = "Tom",
                     LastName = "Brown",
                     Email = "tomb@gmail.com",
                     PhoneNumber = "236859714"
                 });
-            mockStudentDAL.Setup(x => x.Update(id, firstName, lastName, email, phoneNumber));
+            mockStudentDAL.Setup(x => x.Update(id.ToString(), firstName, lastName, email, phoneNumber));
 
-            Assert.Throws<Exception>(() => studentBLL.Update(id, firstName, lastName, email, phoneNumber));
+            var result = studentBLL.Update(id.ToString(), firstName, lastName, email, phoneNumber);
+            Assert.That(result, Is.EqualTo("Student with such email already exists"));
         }
 
         [TestCase(100, "Sam856", "Smith565", "sam@gmail.com", "545898452")]
         public void Update_WhenNameIsInvalid_ThrowException(int id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns((Student)null);
-            mockStudentDAL.Setup(x => x.Update(id, firstName, lastName, email, phoneNumber));
+            mockStudentDAL.Setup(x => x.Update(id.ToString(), firstName, lastName, email, phoneNumber));
 
-            Assert.Throws<Exception>(() => studentBLL.Update(id, firstName, lastName, email, phoneNumber));
+            var result = studentBLL.Update(id.ToString(), firstName, lastName, email, phoneNumber);
+            Assert.That(result, Is.EqualTo("Invalid First Name"));
         }
 
         [TestCase(100, "Sam", "Smith", "samgmail.com", "545898452")]
         public void Update_WhenEmailIsInvalid_ThrowException(int id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns((Student)null);
-            mockStudentDAL.Setup(x => x.Update(id, firstName, lastName, email, phoneNumber));
+            mockStudentDAL.Setup(x => x.Update(id.ToString(), firstName, lastName, email, phoneNumber));
 
-            Assert.Throws<Exception>(() => studentBLL.Update(id, firstName, lastName, email, phoneNumber));
+            var result = studentBLL.Update(id.ToString(), firstName, lastName, email, phoneNumber);
+            Assert.That(result, Is.EqualTo("Invalid Email Address"));
         }
 
         [TestCase(2, 2, 1, 2)]
@@ -184,7 +190,7 @@ namespace UnitTests
             {
                 new Student()
                 {
-                   ID = 1,
+                   Id = "1",
                    FirstName = "Kate",
                    LastName = "Smith",
                    Email = "kate@gmail.com",
@@ -192,7 +198,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 2,
+                   Id = "2",
                    FirstName = "Tom",
                    LastName = "Smithway",
                    Email = "tomb@gmail.com",
@@ -200,7 +206,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 3,
+                   Id = "3",
                    FirstName = "Elizabeth",
                    LastName = "Smithw",
                    Email = "elizabeth@gmail.com",
@@ -208,7 +214,7 @@ namespace UnitTests
                 }
             };
 
-            mockStudentDAL.Setup(x => x.Search(filter.Filter, filter.Text, filter.IsSorted)).Returns(mockFiltredStudentList.AsQueryable);
+            mockStudentDAL.Setup(x => x.Search(filter.Filter, filter.Text, filter.IsSorted)).Returns(mockFiltredStudentList);
             List<Student> students;
             int pageCount;
 
