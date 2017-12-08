@@ -25,6 +25,7 @@ namespace LanguageSchool.Tests
         Mock<IClassBLL> mockClassBLL;
         Mock<IStudentBLL> mockStudentBLL;
         ClassesController classesController;
+        String userId = "abc";
         public ClassesControllerTests()
         {
             List<Language> languages;
@@ -189,7 +190,11 @@ namespace LanguageSchool.Tests
 
             mockClassBLL = new Mock<IClassBLL>();
             mockStudentBLL = new Mock<IStudentBLL>();
-            classesController = new ClassesController(mockStudentBLL.Object, mockClassBLL.Object);
+            classesController = new ClassesController(mockStudentBLL.Object, mockClassBLL.Object)
+            {
+                CurrentUserId = () => "abc",
+                CurrentUserName = () => "TestUser"
+            };
         }
 
         [TestCase]
@@ -228,5 +233,38 @@ namespace LanguageSchool.Tests
             var actionResult = classesController.Get(lang, level) as OkNegotiatedContentResult<List<ClassBasicDataDto>>;
             Assert.That(actionResult.Content.Count, Is.EqualTo(count));
         }
+
+        [Test]
+        public void GetTop_WhenLessThan0_ReturnsBadRequest()
+        {
+            var actionResult = classesController.GetTop(-2);
+            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+        }
+
+        [Test]
+        public void GetTop_WhenSthWentWrong_ReturnsNotFound()
+        {
+            mockClassBLL.Setup(x => x.GetTopClasses(It.IsAny<int>())).Returns((List<ClassBasicDataDto>)null);
+            var actionResult = classesController.GetTop(5);
+            Assert.IsInstanceOf(typeof(NotFoundResult), actionResult);
+        }
+
+        [Test]
+        public void GetTop_Always_ReturnsCorrectResult()
+        {
+            mockClassBLL.Setup(x => x.GetTopClasses(It.IsAny<int>())).Returns(classesBasicData.Take(5).ToList());
+            var actionResult = classesController.GetTop(5) as OkNegotiatedContentResult<List<ClassBasicDataDto>>;
+            Assert.That(actionResult.Content.Count, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void GetSuggested_Always_ReturnsCorrectResult()
+        {
+            mockClassBLL.Setup(x => x.GetSuggestedClasses(userId, 1)).Returns(classesBasicData.Take(2).ToList());
+            var actionResult = classesController.GetSuggested() as OkNegotiatedContentResult<List<ClassBasicDataDto>>;
+            Assert.That(actionResult.Content.Count, Is.EqualTo(2));
+        }
+
+
     }
 }

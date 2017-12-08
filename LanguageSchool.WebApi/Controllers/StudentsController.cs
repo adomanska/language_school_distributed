@@ -28,7 +28,7 @@ namespace LanguageSchool.WebApi.Controllers
         {
             var classesIDs = _studentService.GetClasses(CurrentUserId());
             if (classesIDs == null)
-                return BadRequest("Student not found");
+                return NotFound();
             return Ok(classesIDs.Select(x => _classService.GetByID(x)));
         }
 
@@ -38,7 +38,7 @@ namespace LanguageSchool.WebApi.Controllers
         {
             var studentInfo = _studentService.GetById(CurrentUserId());
             if(studentInfo == null)
-                return BadRequest("Student not found");
+                return NotFound();
 
             studentInfo.UserName = CurrentUserName();
             return Ok(studentInfo);

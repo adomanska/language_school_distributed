@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace LanguageSchool.WebApi.Controllers
 {
-    public class ClassesController : ApiController
+    public class ClassesController : BaseController
     {
         IClassBLL _classService;
         IStudentBLL _studentService;
@@ -56,6 +56,9 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/classes/top/{count:int}"),HttpGet]
         public IHttpActionResult GetTop(int count)
         {
+            if (count <= 0)
+                return BadRequest("Invalid argument: count has to be > 0");
+
             List<ClassBasicDataDto> topClasses;
             try
             {
@@ -74,11 +77,10 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/classes/suggested"), HttpGet]
         public IHttpActionResult GetSuggested()
         {
-            string userId = RequestContext.Principal.Identity.GetUserId();
             List<ClassBasicDataDto> suggestedClasses;
             try
             {
-                suggestedClasses = _classService.GetSuggestedClasses(userId, 1);
+                suggestedClasses = _classService.GetSuggestedClasses(CurrentUserId(), 1);
             }
             catch(Exception e)
             {

@@ -204,7 +204,7 @@ namespace LanguageSchool.Tests
             mockStudentBLL.Setup(x => x.GetClasses(It.IsAny<string>())).Returns((int[])(null));
 
             IHttpActionResult actionResult = studentsController.GetInformations();
-            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+            Assert.IsInstanceOf(typeof(NotFoundResult), actionResult);
         }
 
         [Test]
@@ -231,7 +231,7 @@ namespace LanguageSchool.Tests
             mockStudentBLL.Setup(x => x.GetById(It.IsAny<string>())).Returns((StudentDataDto)(null));
 
             IHttpActionResult actionResult = studentsController.GetInformations();
-            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+            Assert.IsInstanceOf(typeof(NotFoundResult), actionResult);
         }
 
         [Test]
