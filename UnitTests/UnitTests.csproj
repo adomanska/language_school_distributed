@@ -99,6 +99,7 @@
     <Compile Include="LanguageSchoolMockContext.cs" />
     <Compile Include="MockDbSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudentsControllerTests.cs" />
     <Compile Include="ValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
