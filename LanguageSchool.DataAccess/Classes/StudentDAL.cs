@@ -21,7 +21,9 @@ namespace LanguageSchool.DataAccess
         }
         public List<Student> GetAll()
         {
-           return _context.Students.ToList();
+            IQueryable<Student> students;
+            students = _context.Students;
+            return students.ToList();
         }
         public void Add(Student student)
         {

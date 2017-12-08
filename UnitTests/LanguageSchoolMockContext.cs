@@ -23,7 +23,7 @@ namespace UnitTests
             {
                 new Student()
                 {
-                   ID = 1,
+                   Id = "1",
                    FirstName = "Kate",
                    LastName = "Smith",
                    Email = "kate@gmail.com",
@@ -32,7 +32,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 2,
+                   Id = "2",
                    FirstName = "Tom",
                    LastName = "Brown",
                    Email = "tomb@gmail.com",
@@ -41,7 +41,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 3,
+                   Id = "3",
                    FirstName = "Elizabeth",
                    LastName = "Jones",
                    Email = "elizabeth@gmail.com",
@@ -50,7 +50,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 4,
+                   Id = "4",
                    FirstName = "Kate",
                    LastName = "King",
                    Email = "king@gmail.com",
@@ -59,7 +59,7 @@ namespace UnitTests
                 },
                 new Student()
                 {
-                   ID = 5,
+                   Id = "5",
                    FirstName = "John",
                    LastName = "Davis",
                    Email = "davisj@gmail.com",
@@ -74,17 +74,17 @@ namespace UnitTests
             {
                 new Language()
                 {
-                    LanguageID=1,
+                    Id=1,
                     LanguageName = "English"
                 },
                 new Language()
                 {
-                    LanguageID=2,
+                    Id=2,
                     LanguageName="Spanish"
                 },
                 new Language()
                 {
-                    LanguageID=3,
+                    Id=3,
                     LanguageName="Russian"
                 }
             };
@@ -94,32 +94,32 @@ namespace UnitTests
             {
                 new LanguageLevel()
                 {
-                    LanguageLevelID=1,
+                    Id=1,
                     LanguageLevelSignature="A1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=2,
+                    Id=2,
                     LanguageLevelSignature="A2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=3,
+                    Id=3,
                     LanguageLevelSignature="B1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=4,
+                    Id=4,
                     LanguageLevelSignature="B2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=5,
+                    Id=5,
                     LanguageLevelSignature="C1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=6,
+                    Id=6,
                     LanguageLevelSignature="C2"
                 }
             };
@@ -128,7 +128,7 @@ namespace UnitTests
             {
                 new Class()
                 {
-                    ClassID=1,
+                    Id=1,
                     ClassName="English M1",
                     LanguageRefID=1,
                     Language = languages.ElementAt(0),
@@ -141,7 +141,7 @@ namespace UnitTests
                 },
                 new Class()
                 {
-                    ClassID=2,
+                    Id=2,
                     ClassName="English M14",
                     LanguageRefID=1,
                     Language = languages.ElementAt(0),
@@ -154,7 +154,7 @@ namespace UnitTests
                 },
                 new Class()
                 {
-                    ClassID=3,
+                    Id=3,
                     ClassName="Spanish M2",
                     LanguageRefID=2,
                     Language = languages.ElementAt(1),
@@ -167,7 +167,7 @@ namespace UnitTests
                 },
                 new Class()
                 {
-                    ClassID=4,
+                    Id=4,
                     ClassName="Spanish Conversations",
                     LanguageRefID=2,
                     Language = languages.ElementAt(1),
@@ -180,7 +180,7 @@ namespace UnitTests
                 },
                 new Class()
                 {
-                    ClassID=5,
+                    Id=5,
                     ClassName="Russian M15",
                     LanguageRefID=3,
                     Language = languages.ElementAt(2),
@@ -193,7 +193,7 @@ namespace UnitTests
                 },
                 new Class()
                 {
-                    ClassID=6,
+                    Id=6,
                     ClassName="Russian M1",
                     LanguageRefID=3,
                     LanguageLevelRefID=1,

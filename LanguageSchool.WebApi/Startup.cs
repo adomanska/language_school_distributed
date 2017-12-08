@@ -31,6 +31,12 @@ namespace LanguageSchool.WebApi
             builder.RegisterType<ClassDAL>().As<IClassDAL>();
             builder.RegisterType<StudentBLL>().As<IStudentBLL>();
             builder.RegisterType<StudentDAL>().As<IStudentDAL>();
+            builder.RegisterType<LanguageDAL>().As<ILanguageDAL>();
+            builder.RegisterType<LanguageBLL>().As<ILanguageBLL>();
+            builder.RegisterType<LanguageLevelDAL>().As<ILanguageLevelDAL>();
+            builder.RegisterType<LanguageLevelBLL>().As<ILanguageLevelBLL>();
+
+
             builder.RegisterType<LanguageSchoolContext>().As<ILanguageSchoolContext>();
 
             var container = builder.Build();

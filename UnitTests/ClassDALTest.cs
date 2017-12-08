@@ -53,6 +53,13 @@ namespace UnitTests
             Assert.IsInstanceOf(typeof(Class), result);
         }
 
+        [TestCase(8)]
+        [TestCase(-1)]
+        public void Update_NonExisitingClass_ThrowsException(int Id)
+        {
+            Assert.Throws<Exception>(() => classDAL.Update(Id, "Updated class", "9:30", "11:00", 1, 1, DayOfWeek.Friday));
+        }
+
         [TestCase(null, 1,-1,2)]
         [TestCase("Spanish",-1,-1,2)]
         [TestCase(null,-1,1,3)]

@@ -13,17 +13,15 @@ namespace LanguageSchool.WebApi.Controllers
 {
     public class LanguagesController : ApiController
     {
-        IlanguageSchoolContext contextProvider;
-        ILanguageBLL languageBLL;
+        ILanguageBLL _languageService;
 
-        public LanguagesController()
+        public LanguagesController(ILanguageBLL languageService)
         {
-            contextProvider = new ContextProvider<LanguageSchoolContext>();
-            languageBLL = new LanguageBLL(new LanguageDAL(contextProvider));
+            _languageService = languageService;
         }
         public IHttpActionResult Get()
         {
-            var languages = languageBLL.GetAll();
+            var languages = _languageService.GetAll();
             return Ok(languages);
         }
 

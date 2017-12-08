@@ -24,57 +24,57 @@ namespace UnitTests
         [Test]
         public void GetAll_Always_ReturnAllStudents()
         {
-            var result = studentDAL.GetAll().Count();
-            //Assert.That(result, Is.EqualTo(context.Students.Count()));
+            var result = studentDAL.GetAll();
+            Assert.That(result.Count, Is.EqualTo(context.Students.Count()));
         }
 
         [Test]
         public void GetAll_Always_ReturnsCorrectEmailOfFirstStudent()
         {
-            //var result = studentDAL.GetAll();
-            //var email = result.First().Email;
-            //Assert.That(email, Is.EqualTo("kate@gmail.com"));
+            var result = studentDAL.GetAll();
+            var email = result.First().Email;
+            Assert.That(email, Is.EqualTo("kate@gmail.com"));
         }
 
         [Test]
         public void SearchByName_WhenNameExists_ReturnsCorrectStudent()
         {
             var result = studentDAL.Search(SearchBy.LastName, "Davis", false);
-            Assert.That(result.First().Id, Is.EqualTo("5"));
+            Assert.That(result.First().ID, Is.EqualTo(5));
         }
 
         [Test]
         public void SearchByEmail_WhenEmailExists_ReturnsCorrectStudent()
         {
             var result = studentDAL.Search(SearchBy.Email, "king@gmail.com", false);
-            Assert.That(result.First().Id, Is.EqualTo("4"));
+            Assert.That(result.First().ID, Is.EqualTo(4));
         }
 
         [Test]
         public void SearchByName_WhenIsAlphabeticallySorted_ReturnsCorrectFirstStudent()
         {
             var result = studentDAL.Search(SearchBy.LastName, "", true);
-            Assert.That(result.First().Id, Is.EqualTo("2"));
+            Assert.That(result.First().ID, Is.EqualTo(2));
         }
 
         [Test]
         public void SearchByEmail_WhenIsAlphabeticallySorted_ReturnsCorrectFirstStudent()
         {
             var result = studentDAL.Search(SearchBy.Email, "", true);
-            Assert.That(result.First().Id, Is.EqualTo("5"));
+            Assert.That(result.First().ID, Is.EqualTo(5));
         }
 
         [Test]
         public void Update_NonExisitingStudent_ThrowsException()
         {
-            Assert.Throws<Exception>(() => studentDAL.Update("-1", "Tom", "Cruise", "tom@gmail.com", "503998452"));
+            Assert.Throws<Exception>(() => studentDAL.Update(-1, "Tom", "Cruise", "tom@gmail.com", "503998452"));
         }
 
         [Test]
         public void Update_ExisitingStudent_ReturnCorrectResult()
         {
-            studentDAL.Update("2", "John", "Cruise", "tom@gmail.com", "503998452");
-            var firstName = context.Students.Where(x => x.Id == "2").First().FirstName;
+            studentDAL.Update(2, "John", "Cruise", "tom@gmail.com", "503998452");
+            var firstName = context.Students.Where(x => x.ID == 2).First().FirstName;
             Assert.That(firstName, Is.EqualTo("John"));
         }
 
@@ -91,13 +91,13 @@ namespace UnitTests
         {
             var result = studentDAL.FindByEmail(email);
             Assert.IsNotNull(result);
-            Assert.That(result.Id, Is.EqualTo(id.ToString()));
+            Assert.That(result.ID, Is.EqualTo(id));
         }
 
         [Test]
         public void FindByID_NonExistingID_ReturnsNull()
         {
-            var result = studentDAL.GetById("-1");
+            var result = studentDAL.FindByID(-1);
             Assert.IsNull(result);
         }
 
@@ -105,9 +105,9 @@ namespace UnitTests
         [TestCase(3)]
         public void FindByID_ExistingID_ReturnsCorrectStudent(int id)
         {
-            var result = studentDAL.GetById(id.ToString());
+            var result = studentDAL.FindByID(id);
             Assert.IsNotNull(result);
-            Assert.That(result.Id, Is.EqualTo(id.ToString()));
+            Assert.That(result.ID, Is.EqualTo(id));
         }
 
 
@@ -130,7 +130,7 @@ namespace UnitTests
             int count1 = context.Students.Count();
             var student = new Student
             {
-                Id = "6",
+                ID = 6,
                 FirstName = "Paul",
                 LastName = "Kingson",
                 Email = "paulking@gmail.com",

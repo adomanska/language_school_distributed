@@ -11,30 +11,24 @@ namespace LanguageSchool.DataAccess
 {
     public class LanguageLevelDAL: ILanguageLevelDAL
     {
-        IlanguageSchoolContext contextProvider;
-        public LanguageLevelDAL(IlanguageSchoolContext provider)
+        ILanguageSchoolContext _context;
+        public LanguageLevelDAL(ILanguageSchoolContext context)
         {
-            contextProvider = provider;
+            _context = context;
         }
         public List<LanguageLevel> GetAll()
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                return db.LanguageLevels.ToList();
-            }
+                return _context.LanguageLevels.ToList();
         }
 
         public List<string> GetLevels(string language)
         {
-            using (var db = contextProvider.GetNewContext())
-            {
-                var lan = db.Languages.Where(l => l.LanguageName == language).FirstOrDefault();
+                var lan = _context.Languages.Where(l => l.LanguageName == language).FirstOrDefault();
                 if (lan != null)
                 {
-                    return db.Classes.Where(c => c.Language.Id == lan.Id).Select(x => x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
+                    return _context.Classes.Where(c => c.Language.Id == lan.Id).Select(x => x.LanguageLevel.LanguageLevelSignature).Distinct().ToList();
                 }
                 return null;
-            }
         }
     }
 }
