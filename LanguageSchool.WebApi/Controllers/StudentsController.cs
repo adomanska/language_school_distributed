@@ -7,9 +7,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
+
+
 namespace LanguageSchool.WebApi.Controllers
 {
-    public class StudentsController : ApiController
+    public class StudentsController : BaseController
     {
         IStudentBLL _studentService;
         IClassBLL _classService;
@@ -24,23 +26,21 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/student/classes"), HttpGet]
         public IHttpActionResult GetClasses()
         {
-            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            var classesIDs = _studentService.GetClasses(userId);
+            var classesIDs = _studentService.GetClasses(CurrentUserId());
             if (classesIDs == null)
                 return BadRequest("Student not found");
             return Ok(classesIDs.Select(x => _classService.GetByID(x)));
         }
 
         [Authorize]
-        [Route("api/student"), HttpGet]
+        [Route("api/student/info"), HttpGet]
         public IHttpActionResult GetInformations()
         {
-            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            var studentInfo = _studentService.GetById(userId);
+            var studentInfo = _studentService.GetById(CurrentUserId());
             if(studentInfo == null)
                 return BadRequest("Student not found");
 
-            studentInfo.UserName = System.Web.HttpContext.Current.User.Identity.GetUserName();
+            studentInfo.UserName = CurrentUserName();
             return Ok(studentInfo);
         }
 
@@ -48,8 +48,7 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/student"), HttpPut]
         public IHttpActionResult PutInformations(EditProfileModel editModel)
         {
-            string userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            string error = _studentService.Update(userId, editModel.FirstName, editModel.LastName, editModel.Email, editModel.PhoneNumber);
+            string error = _studentService.Update(CurrentUserId(), editModel.FirstName, editModel.LastName, editModel.Email, editModel.PhoneNumber);
 
             if (error != null)
                 return BadRequest(error);
