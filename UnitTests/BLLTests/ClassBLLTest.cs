@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LanguageSchool.DataAccess;
 using LanguageSchool.Model;
+using LanguageSchool.Shared.Dtos;
 
 namespace UnitTests
 {
@@ -15,7 +16,7 @@ namespace UnitTests
     public class ClassBLLTests
     {
         private Mock<IClassDAL> mockClassDAL;
-        private IQueryable<Class> classes;
+        private List<Class> classes;
         private IClassBLL classBLL;
         private List<LanguageLevel> languageLevels;
         private List<Language> languages;
@@ -26,17 +27,17 @@ namespace UnitTests
             {
                 new Language()
                 {
-                    LanguageID=1,
+                    Id=1,
                     LanguageName = "English"
                 },
                 new Language()
                 {
-                    LanguageID=2,
+                    Id=2,
                     LanguageName="Spanish"
                 },
                 new Language()
                 {
-                    LanguageID=3,
+                    Id=3,
                     LanguageName="Russian"
                 }
             };
@@ -45,32 +46,32 @@ namespace UnitTests
             {
                 new LanguageLevel()
                 {
-                    LanguageLevelID=1,
+                    Id=1,
                     LanguageLevelSignature="A1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=2,
+                    Id=2,
                     LanguageLevelSignature="A2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=3,
+                    Id=3,
                     LanguageLevelSignature="B1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=4,
+                    Id=4,
                     LanguageLevelSignature="B2"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=5,
+                    Id=5,
                     LanguageLevelSignature="C1"
                 },
                 new LanguageLevel()
                 {
-                    LanguageLevelID=6,
+                    Id=6,
                     LanguageLevelSignature="C2"
                 }
             };
@@ -79,7 +80,7 @@ namespace UnitTests
             {
                 new Class()
                 {
-                    ClassID=1,
+                    Id=1,
                     ClassName="English M1",
                     LanguageRefID=1,
                     Language = languages.ElementAt(0),
@@ -87,11 +88,13 @@ namespace UnitTests
                     LanguageLevel = languageLevels.ElementAt(0),
                     StartTime="10:00",
                     EndTime="11:30",
-                    Day=DayOfWeek.Monday
+                    Day=DayOfWeek.Monday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
                 },
                 new Class()
                 {
-                    ClassID=2,
+                    Id=2,
                     ClassName="English M14",
                     LanguageRefID=1,
                     Language = languages.ElementAt(0),
@@ -99,11 +102,13 @@ namespace UnitTests
                     LanguageLevel = languageLevels.ElementAt(4),
                     StartTime="10:00",
                     EndTime="11:30",
-                    Day=DayOfWeek.Tuesday
+                    Day=DayOfWeek.Tuesday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
                 },
                 new Class()
                 {
-                    ClassID=3,
+                    Id=3,
                     ClassName="Spanish M2",
                     LanguageRefID=2,
                     Language = languages.ElementAt(1),
@@ -111,11 +116,13 @@ namespace UnitTests
                     LanguageLevel = languageLevels.ElementAt(0),
                     StartTime="11:00",
                     EndTime="12:30",
-                    Day=DayOfWeek.Monday
+                    Day=DayOfWeek.Monday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
                 },
                 new Class()
                 {
-                    ClassID=4,
+                    Id=4,
                     ClassName="Spanish Conversations",
                     LanguageRefID=2,
                     Language = languages.ElementAt(1),
@@ -123,11 +130,13 @@ namespace UnitTests
                     LanguageLevel = languageLevels.ElementAt(3),
                     StartTime="10:00",
                     EndTime="11:30",
-                    Day=DayOfWeek.Thursday
+                    Day=DayOfWeek.Thursday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
                 },
                 new Class()
                 {
-                    ClassID=5,
+                    Id=5,
                     ClassName="Russian M15",
                     LanguageRefID=3,
                     Language = languages.ElementAt(2),
@@ -135,11 +144,13 @@ namespace UnitTests
                     LanguageLevel = languageLevels.ElementAt(4),
                     StartTime="12:00",
                     EndTime="13:30",
-                    Day=DayOfWeek.Wednesday
+                    Day=DayOfWeek.Wednesday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
                 },
                 new Class()
                 {
-                    ClassID=6,
+                    Id=6,
                     ClassName="Russian M1",
                     LanguageRefID=3,
                     LanguageLevelRefID=1,
@@ -147,9 +158,11 @@ namespace UnitTests
                     Language = languages.ElementAt(2),
                     StartTime="10:00",
                     EndTime="11:30",
-                    Day=DayOfWeek.Friday
-                },
-            }.AsQueryable();
+                    Day=DayOfWeek.Friday,
+                    StudentsMax = 20,
+                    Students = new List<Student>()
+                }
+            };
 
             mockClassDAL = new Mock<IClassDAL>();
             classBLL = new ClassBLL(mockClassDAL.Object);
@@ -159,6 +172,9 @@ namespace UnitTests
         public void GetAll_Always_ReturnsAllClasses()
         {
             mockClassDAL.Setup(mr => mr.GetAll()).Returns(classes);
+            mockClassDAL.Setup(mr => mr.GetLanguage(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.Id == id).FirstOrDefault().Language);
+            mockClassDAL.Setup(mr => mr.GetLanguageLevel(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.Id == id).FirstOrDefault().LanguageLevel);
+            mockClassDAL.Setup(mr => mr.GetStudents(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.Id == id).FirstOrDefault().Students.ToList());
             var result = classBLL.GetAll().Count;
             Assert.That(result, Is.EqualTo(6));
         }
@@ -167,7 +183,7 @@ namespace UnitTests
         [TestCase(10)]
         public void GetById_InvalidId_ReturnsNull(int ID)
         {
-            mockClassDAL.Setup(mr => mr.GetByID(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.ClassID == id).FirstOrDefault());
+            mockClassDAL.Setup(mr => mr.GetByID(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.Id == id).FirstOrDefault());
             var result = classBLL.GetByID(ID);
             Assert.IsNull(result);
         }
@@ -176,10 +192,11 @@ namespace UnitTests
         [TestCase(4)]
         public void GetById_ValidId_ReturnsClass(int ID)
         {
-            mockClassDAL.Setup(mr => mr.GetByID(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.ClassID == id).FirstOrDefault());
+            mockClassDAL.Setup(mr => mr.GetByID(It.IsAny<int>())).Returns((int id) => classes.Where(x => x.Id == id).FirstOrDefault());
+
             var result = classBLL.GetByID(ID);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf(typeof(Class), result);
+            Assert.IsInstanceOf(typeof(ClassDataDto), result);
         }
 
         [TestCase("English", "C1", 1)]
@@ -192,20 +209,20 @@ namespace UnitTests
             Assert.That(result, Is.EqualTo(count));
         }
 
-        [TestCase("M",-1,-1,3,2,1,3)]
-        [TestCase(null,1,-1,2,1,1,2)]
-        public void Search_Always_ReturnsExpectedResult(string className, int languageID, int languageLevelID, int pageNumber, int pageSize, int classCount, int pagesCount)
+        [TestCase("M",-1,-1,5)]
+        [TestCase(null,1,-1,2)]
+        public void Search_Always_ReturnsExpectedResult(string className, int languageID, int languageLevelID, int classCount)
         {
             mockClassDAL.Setup(mr => mr.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(
                (string name, int langID, int levelID) =>
                {
                    var result = classes;
                    if (name != null)
-                       result = result.Where(x => x.ClassName.Contains(name));
+                       result = result.Where(x => x.ClassName.Contains(name)).ToList();
                    if (langID != -1)
-                       result = result.Where(x => x.LanguageRefID == langID);
+                       result = result.Where(x => x.LanguageRefID == langID).ToList();
                    if (levelID != -1)
-                       result = result.Where(x => x.LanguageLevelRefID == levelID);
+                       result = result.Where(x => x.LanguageLevelRefID == levelID).ToList();
                    return result;
                });
             ClassFilter filter = new ClassFilter()
@@ -213,13 +230,10 @@ namespace UnitTests
                 ClassName = className,
                 Language = languageID!=-1 ? languages.ElementAt(languageID - 1) : null,
                 LanguageLevel = languageLevelID!=-1 ? languageLevels.ElementAt(languageLevelID - 1) : null,
-                PageNumber = pageNumber,
-                PageSize = pageSize
             };
 
-            (var res1, var res2) = classBLL.Search(filter);
-            Assert.That(res1.Count, Is.EqualTo(classCount));
-            Assert.That(res2, Is.EqualTo(pagesCount));
+            var res = classBLL.Search(filter);
+            Assert.That(res.Count, Is.EqualTo(classCount));
         }
     }
 }

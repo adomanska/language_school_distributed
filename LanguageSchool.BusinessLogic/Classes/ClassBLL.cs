@@ -29,18 +29,18 @@ namespace LanguageSchool.BusinessLogic
 
                 foreach (Class c in classes)
                 {
-                    ClassDataDto classData = new ClassDataDto()
-                    {
-                        Id = c.Id,
-                        ClassName = c.ClassName,
-                        Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
-                        StartTime = c.StartTime,
-                        EndTime = c.EndTime,
-                        StudentsCount = GetStudentsCount(c.Id),
-                        StudentsMax = c.StudentsMax
-                    };
-                    result.Add(classData);
+                ClassDataDto classData = new ClassDataDto()
+                {
+                    Id = c.Id,
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                    StartTime = c.StartTime,
+                    EndTime = c.EndTime,
+                    StudentsCount = GetStudentsCount(c.Id),
+                    StudentsMax = c.StudentsMax
+                };
+                result.Add(classData);
                 }
                 return result;
             }
@@ -53,6 +53,9 @@ namespace LanguageSchool.BusinessLogic
         public ClassDataDto GetByID (int ID)
         {
             Class c = classDAL.GetByID(ID);
+
+            if (c == null)
+                return null;
 
             ClassDataDto classData = new ClassDataDto()
             {
@@ -199,7 +202,7 @@ namespace LanguageSchool.BusinessLogic
         public Language Language { get; set; }
         public LanguageLevel LanguageLevel{ get; set; }
 
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        //public int PageNumber { get; set; }
+        //public int PageSize { get; set; }
     }
 }

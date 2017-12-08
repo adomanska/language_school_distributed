@@ -87,6 +87,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLLTests\ClassBLLTest.cs" />
+    <Compile Include="BLLTests\LanguageBLLTest.cs" />
+    <Compile Include="BLLTests\LanguageLevelBLLTest.cs" />
+    <Compile Include="BLLTests\StudentBLLTests.cs" />
     <Compile Include="ClassesControllerTests.cs" />
     <Compile Include="DALTests\ClassDALTest.cs" />
     <Compile Include="DALTests\LanguageDALTest.cs" />
