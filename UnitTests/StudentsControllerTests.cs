@@ -192,7 +192,7 @@ namespace LanguageSchool.Tests
         [Test]
         public void GetClasses_Always_ReturnsExpectedResult()
         {
-            mockStudentBLL.Setup(x => x.GetClasses("abc")).Returns(new int[] { 1, 2});
+            mockStudentBLL.Setup(x => x.GetClasses(It.IsAny<string>())).Returns(new int[] { 1, 2});
             mockClassBLL.Setup(x => x.GetByID(It.IsAny<int>())).Returns((int id) => classesData.Where(x => x.Id == id).FirstOrDefault());
 
             var actionResult = studentsController.GetClasses() as OkNegotiatedContentResult<List<ClassDataDto>>;

@@ -29,7 +29,7 @@ namespace LanguageSchool.WebApi.Controllers
             var classesIDs = _studentService.GetClasses(CurrentUserId());
             if (classesIDs == null)
                 return BadRequest("Student not found");
-            return Ok(classesIDs.Select(x => _classService.GetByID(x)));
+            return Ok(classesIDs.Select(x => _classService.GetByID(x)).ToList());
         }
 
         [Authorize]
