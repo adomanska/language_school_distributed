@@ -66,7 +66,10 @@ namespace LanguageSchool.WebApi.Controllers
             }
             catch(Exception e)
             {
-                return BadRequest(e.Message);
+                if (e is ArgumentException)
+                    return BadRequest(e.Message);
+                else
+                    return NotFound();
             }
             if (topClasses == null)
                 return NotFound();
@@ -84,7 +87,10 @@ namespace LanguageSchool.WebApi.Controllers
             }
             catch(Exception e)
             {
-                return BadRequest(e.Message);
+                if (e is ArgumentException)
+                    return BadRequest(e.Message);
+                else
+                    return NotFound();
             }
             return Ok(suggestedClasses);
         }

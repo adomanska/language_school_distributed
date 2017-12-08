@@ -128,7 +128,7 @@ namespace LanguageSchool.BusinessLogic
         public List<ClassBasicDataDto> GetTopClasses(int count)
         {
             if (count <= 0)
-                return null;
+                throw new ArgumentException("Invalid argument: count has to be > 0");
 
             try
             {
@@ -152,7 +152,7 @@ namespace LanguageSchool.BusinessLogic
             }
             catch
             {
-                return null;
+                throw new Exception("Loading data failed");
             }
         }
 
@@ -183,7 +183,7 @@ namespace LanguageSchool.BusinessLogic
             }
             catch
             {
-                return null;
+                throw new Exception("Loading data failed");
             }
         }
 
