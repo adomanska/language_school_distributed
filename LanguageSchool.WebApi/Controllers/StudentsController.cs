@@ -48,12 +48,17 @@ namespace LanguageSchool.WebApi.Controllers
         [Route("api/student"), HttpPut]
         public IHttpActionResult PutInformations(EditProfileModel editModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             string error = _studentService.Update(CurrentUserId(), editModel.FirstName, editModel.LastName, editModel.Email, editModel.PhoneNumber);
 
             if (error != null)
                 return BadRequest(error);
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
 
 

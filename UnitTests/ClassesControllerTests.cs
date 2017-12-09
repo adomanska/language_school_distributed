@@ -265,6 +265,51 @@ namespace LanguageSchool.Tests
             Assert.That(actionResult.Content.Count, Is.EqualTo(2));
         }
 
+        [Test]
+        public void SignFor_WhenIdLessThan0_ReturnsBadRequest()
+        {
+            var actionResult = classesController.SignFor(-2);
+            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+        }
 
+        [Test]
+        public void SignFor_WhenErrorOccurs_ReturnsBadRequest()
+        {
+            mockStudentBLL.Setup(x => x.SignForClass(userId, It.IsAny<int>())).Returns("Error message");
+            var actionResult = classesController.SignFor(1);
+            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+        }
+
+        [Test]
+        public void SignFor_Always_ReturnsOk()
+        {
+            mockStudentBLL.Setup(x => x.SignForClass(userId, It.IsAny<int>())).Returns((string)null);
+            var actionResult = classesController.SignFor(1);
+            Assert.IsInstanceOf(typeof(OkResult), actionResult);
+        }
+
+        [Test]
+        public void DeleteSubscription_WhenIdLessThan0_ReturnsBadRequest()
+        {
+            var actionResult = classesController.DeleteSubscription(-2);
+            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+        }
+
+        [Test]
+        public void DeleteSubscription_WhenErrorOccurs_ReturnsBadRequest()
+        {
+            mockStudentBLL.Setup(x => x.UnsubscribeFromClass(userId, It.IsAny<int>())).Returns("Error message");
+            var actionResult = classesController.DeleteSubscription(1);
+            Assert.IsInstanceOf(typeof(BadRequestErrorMessageResult), actionResult);
+        }
+
+        [Test]
+        public void DeleteSubscription_Always_ReturnsOk()
+        {
+            mockStudentBLL.Setup(x => x.UnsubscribeFromClass(userId, It.IsAny<int>())).Returns((string)null);
+            var actionResult = classesController.DeleteSubscription(1);
+            Assert.IsInstanceOf(typeof(OkResult), actionResult);
+        }
+        
     }
 }

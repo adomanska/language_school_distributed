@@ -192,7 +192,7 @@ namespace LanguageSchool.Tests
         [Test]
         public void GetClasses_Always_ReturnsExpectedResult()
         {
-            mockStudentBLL.Setup(x => x.GetClasses(It.IsAny<string>())).Returns(new int[] { 1, 2});
+            mockStudentBLL.Setup(x => x.GetClasses(It.IsAny<string>())).Returns(new int[] { 1, 2 });
             mockClassBLL.Setup(x => x.GetByID(It.IsAny<int>())).Returns((int id) => classesData.Where(x => x.Id == id).FirstOrDefault());
 
             var actionResult = studentsController.GetClasses() as OkNegotiatedContentResult<List<ClassDataDto>>;
@@ -247,7 +247,7 @@ namespace LanguageSchool.Tests
             mockStudentBLL.Setup(x => x.Update("abc", "Kasia", "Nowak", "kasia75@wp.pl", "456897123")).Returns((string)null);
 
             IHttpActionResult actionResult = studentsController.PutInformations(model);
-            Assert.IsInstanceOf(typeof(StatusCodeResult), actionResult);
+            Assert.IsInstanceOf(typeof(OkResult), actionResult);
         }
 
         [Test]

@@ -100,7 +100,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void SignForClass_WhenStudentIsSigned_throwsException()
+        public void SignForClass_WhenStudentIsSigned_ReturnsErrorMessage()
         {
             Class c = new Class()
             {
@@ -133,8 +133,92 @@ namespace UnitTests
             Assert.That(result, Is.EqualTo("Student is already registered for this class"));
         }
 
+        [Test]
+        public void UnsubscribeFromClass_WhenClassIdIsNotFound_ReturnsErrorMessage()
+        {
+            Student s = new Student()
+            {
+                Id = "2",
+                FirstName = "Tom",
+                LastName = "Brown",
+                Email = "tomb@gmail.com",
+                PhoneNumber = "236859714",
+                Classes = new Collection<Class>()
+            };
+
+            mockStudentDAL.Setup(x => x.GetById(s.Id)).Returns(s);
+            mockStudentDAL.Setup(x => x.GetClassByID(It.IsAny<int>())).Returns((Class)null);
+            var result = studentBLL.UnsubscribeFromClass(s.Id, It.IsAny<int>());
+            Assert.That(result, Is.EqualTo("Class not found"));
+        }
+
+        [Test]
+        public void UnsubscribeFromClass_WhenStudentIsNotSigned_ReturnsErrorMessage()
+        {
+            Class c = new Class()
+            {
+                Id = 1,
+                ClassName = "English M1",
+                LanguageRefID = 1,
+                LanguageLevelRefID = 1,
+                StartTime = "10:00",
+                EndTime = "11:30",
+                Day = DayOfWeek.Monday,
+                Students = new Collection<Student>()
+            };
+
+            Student s = new Student()
+            {
+                Id = "2",
+                FirstName = "Tom",
+                LastName = "Brown",
+                Email = "tomb@gmail.com",
+                PhoneNumber = "236859714",
+                Classes = new Collection<Class>()
+            };
+            
+            mockStudentDAL.Setup(x => x.GetById(s.Id)).Returns(s);
+            mockStudentDAL.Setup(x => x.GetClassByID(c.Id)).Returns(c);
+            mockStudentDAL.Setup(x => x.UnsubscribeFromClass(s, c));
+            var result = studentBLL.UnsubscribeFromClass(s.Id, c.Id);
+            Assert.That(result, Is.EqualTo("Student is not registered for this class"));
+        }
+
+        [Test]
+        public void UnsubscribeFromClass_Always_ReturnsCorrectResult()
+        {
+            Class c = new Class()
+            {
+                Id = 1,
+                ClassName = "English M1",
+                LanguageRefID = 1,
+                LanguageLevelRefID = 1,
+                StartTime = "10:00",
+                EndTime = "11:30",
+                Day = DayOfWeek.Monday,
+                Students = new Collection<Student>()
+            };
+
+            Student s = new Student()
+            {
+                Id = "2",
+                FirstName = "Tom",
+                LastName = "Brown",
+                Email = "tomb@gmail.com",
+                PhoneNumber = "236859714",
+                Classes = new Collection<Class>()
+            };
+
+            s.Classes.Add(c);
+            mockStudentDAL.Setup(x => x.GetById(s.Id)).Returns(s);
+            mockStudentDAL.Setup(x => x.GetClassByID(c.Id)).Returns(c);
+            mockStudentDAL.Setup(x => x.UnsubscribeFromClass(s, c));
+            var result = studentBLL.UnsubscribeFromClass(s.Id, c.Id);
+            Assert.IsNull(result);
+        }
+
         [TestCase(100, "Sam", "Smith", "tomb@gmail.com", "545898452")]
-        public void Update_WhenNewEmailExists_ThrowException(int id, string firstName, string lastName, string email, string phoneNumber = "")
+        public void Update_WhenNewEmailExists_ReturnsErrorMessage(int id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns(
                 new Student()
@@ -152,7 +236,7 @@ namespace UnitTests
         }
 
         [TestCase(100, "Sam856", "Smith565", "sam@gmail.com", "545898452")]
-        public void Update_WhenNameIsInvalid_ThrowException(int id, string firstName, string lastName, string email, string phoneNumber = "")
+        public void Update_WhenNameIsInvalid_ReturnsErrorMessage(int id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns((Student)null);
             mockStudentDAL.Setup(x => x.Update(id.ToString(), firstName, lastName, email, phoneNumber));
@@ -162,7 +246,7 @@ namespace UnitTests
         }
 
         [TestCase(100, "Sam", "Smith", "samgmail.com", "545898452")]
-        public void Update_WhenEmailIsInvalid_ThrowException(int id, string firstName, string lastName, string email, string phoneNumber = "")
+        public void Update_WhenEmailIsInvalid_ReturnsErrorMessage(int id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             mockStudentDAL.Setup(x => x.FindByEmail(email)).Returns((Student)null);
             mockStudentDAL.Setup(x => x.Update(id.ToString(), firstName, lastName, email, phoneNumber));
@@ -224,5 +308,38 @@ namespace UnitTests
             Assert.That(pageCount, Is.EqualTo(resultPageCount));
         }
 
+        [Test]
+        public void GetClasses_Always_ReturnsCorrectResult()
+        {
+            List<Class> classes = new List<Class>()
+            {
+                new Class(){
+                    Id = 1,
+                    ClassName = "English M1",
+                    LanguageRefID = 1,
+                    LanguageLevelRefID = 1,
+                    StartTime = "10:00",
+                    EndTime = "11:30",
+                    Day = DayOfWeek.Monday,
+                    Students = new Collection<Student>()
+                },
+
+                new Class(){
+                    Id = 2,
+                    ClassName = "English M1",
+                    LanguageRefID = 1,
+                    LanguageLevelRefID = 1,
+                    StartTime = "10:00",
+                    EndTime = "11:30",
+                    Day = DayOfWeek.Monday,
+                    Students = new Collection<Student>()
+                }
+            };
+
+            mockStudentDAL.Setup(x => x.GetClasses(It.IsAny<string>())).Returns(classes);
+
+            var result = studentBLL.GetClasses(It.IsAny<string>());
+            Assert.That(result.Count, Is.EqualTo(2));
+        }
     }
 }

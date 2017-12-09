@@ -91,13 +91,12 @@ namespace LanguageSchool.WebApi.Controllers
 
         [Authorize]
         [Route("api/classes/{id:int}"), HttpPost]
-        public IHttpActionResult SignFor(int id)
+        public IHttpActionResult SignFor(int classId)
         {
-            if (id <= 0)
+            if (classId <= 0)
                 return BadRequest("Invalid class id");
 
-            string userId = HttpContext.Current.User.Identity.GetUserId();
-            var error = _studentService.SignForClass(userId, id);
+            var error = _studentService.SignForClass(CurrentUserId(), classId);
             if (error != null)
                 return BadRequest(error);
 
@@ -106,17 +105,16 @@ namespace LanguageSchool.WebApi.Controllers
 
         [Authorize]
         [Route("api/classes/{id:int}"), HttpDelete]
-        public IHttpActionResult DeleteSubscription(int id)
+        public IHttpActionResult DeleteSubscription(int classId)
         {
-            if (id <= 0)
+            if (classId <= 0)
                 return BadRequest("Invalid class id");
 
-            string userId = HttpContext.Current.User.Identity.GetUserId();
-            var error = _studentService.UnsubscribeFromClass(userId, id);
+            var error = _studentService.UnsubscribeFromClass(CurrentUserId(), classId);
             if (error != null)
                 return BadRequest(error);
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
     }
 }

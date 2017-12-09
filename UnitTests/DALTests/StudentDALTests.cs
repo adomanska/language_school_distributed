@@ -21,20 +21,7 @@ namespace UnitTests
             studentDAL = new StudentDAL(context);
         }
 
-        [Test]
-        public void GetAll_Always_ReturnAllStudents()
-        {
-            var result = studentDAL.GetAll().Count();
-            Assert.That(result, Is.EqualTo(context.Students.Count()));
-        }
-
-        [Test]
-        public void GetAll_Always_ReturnsCorrectEmailOfFirstStudent()
-        {
-            var result = studentDAL.GetAll();
-            var email = result.First().Email;
-            Assert.That(email, Is.EqualTo("kate@gmail.com"));
-        }
+        
 
         [Test]
         public void SearchByName_WhenNameExists_ReturnsCorrectStudent()
@@ -125,6 +112,32 @@ namespace UnitTests
         }
 
         [Test]
+        public void UnsubscribeFromClass_WhenStudentIsSigned_DecreaseStudentClassesCount()
+        {
+            Student s = context.Students.First();
+            int countClassesBefore = s.Classes.Count;
+            Class c = context.Classes.First();
+
+            studentDAL.UnsubscribeFromClass(s, c);
+
+            int countClassesAfter = s.Classes.Count;
+            Assert.That(countClassesBefore - 1, Is.EqualTo(countClassesAfter));
+        }
+
+        [Test]
+        public void GetClasses_Always_ReturnCorrectResult()
+        {
+            List<Class> c = context.Classes.Take(2).ToList();
+            var s = context.Students.FirstOrDefault();
+            s.Classes.Add(c[0]);
+            s.Classes.Add(c[1]);
+
+            var result = studentDAL.GetClasses(s.Id);
+
+            Assert.That(result.Count, Is.EqualTo(2));
+        }
+
+        [Test]
         public void Add_WhenNewStudentNonExists_IncreaseStudentsCount()
         {
             int count1 = context.Students.Count();
@@ -137,10 +150,17 @@ namespace UnitTests
                 PhoneNumber = "789652314",
             };
             studentDAL.Add(student);
-            
+
             int count2 = context.Students.Count();
             Assert.That(count1 + 1, Is.EqualTo(count2));
             context.Students.Remove(student);
+        }
+
+        [Test]
+        public void GetAll_Always_ReturnAllStudents()
+        {
+            var result = studentDAL.GetAll().Count();
+            Assert.That(result, Is.EqualTo(context.Students.Count()));
         }
     }
 }
