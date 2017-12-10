@@ -14,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http.Results;
 using System.Web.Http;
+using LanguageSchool.WebApi;
 
 namespace LanguageSchool.Tests
 {
@@ -310,6 +311,22 @@ namespace LanguageSchool.Tests
             var actionResult = classesController.DeleteSubscription(1);
             Assert.IsInstanceOf(typeof(OkResult), actionResult);
         }
-        
+
+        [Test]
+        public void Search_Always_ReturnsCorrectResult()
+        {
+            var searchingModel = new ClassesSearchingModel()
+            {
+                ClassName = "English M15",
+                LanguageId = 1,
+                LanguageLevelId = 1,
+                PageNumber = 1,
+                PageSize = 10
+            };
+            mockClassBLL.Setup(x => x.Search(It.IsAny<ClassFilter>())).Returns((classesBasicData.Take(5).ToList(), 1));
+            var actionResult = classesController.Search(searchingModel) as OkNegotiatedContentResult<List<ClassBasicDataDto>>;
+            Assert.That(actionResult.Content.Count, Is.EqualTo(5));
+        }
+
     }
 }

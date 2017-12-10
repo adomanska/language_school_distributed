@@ -37,7 +37,7 @@
       <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="LanguageSchool.BusinessLogic">
-      <HintPath>..\LanguageSchool.BusinessLogic\bin\Debug\LanguageSchool.BusinessLogic.dll</HintPath>
+      <HintPath>..\LanguageSchool.BusinessLogic\obj\Debug\LanguageSchool.BusinessLogic.dll</HintPath>
     </Reference>
     <Reference Include="LanguageSchool.Model">
       <HintPath>..\LanguageSchool.Model\bin\Debug\LanguageSchool.Model.dll</HintPath>

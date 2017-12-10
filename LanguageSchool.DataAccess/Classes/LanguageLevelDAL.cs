@@ -30,5 +30,10 @@ namespace LanguageSchool.DataAccess
                 }
                 return null;
         }
+
+        public LanguageLevel GetBySignature(string signature)
+        {
+            return _context.LanguageLevels.Where(x => x.LanguageLevelSignature == signature).Select(x => x).FirstOrDefault();
+        }
     }
 }

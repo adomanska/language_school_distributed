@@ -20,9 +20,7 @@ namespace UnitTests
             context = new LanguageSchoolMockContext();
             studentDAL = new StudentDAL(context);
         }
-
         
-
         [Test]
         public void SearchByName_WhenNameExists_ReturnsCorrectStudent()
         {
@@ -154,13 +152,6 @@ namespace UnitTests
             int count2 = context.Students.Count();
             Assert.That(count1 + 1, Is.EqualTo(count2));
             context.Students.Remove(student);
-        }
-
-        [Test]
-        public void GetAll_Always_ReturnAllStudents()
-        {
-            var result = studentDAL.GetAll().Count();
-            Assert.That(result, Is.EqualTo(context.Students.Count()));
         }
     }
 }

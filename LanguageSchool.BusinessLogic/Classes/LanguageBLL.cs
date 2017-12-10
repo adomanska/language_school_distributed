@@ -30,6 +30,7 @@ namespace LanguageSchool.BusinessLogic
             {
                 LanguageDataDto languageData = new LanguageDataDto()
                 {
+                    Id = l.Id,
                     LanguageName = l.LanguageName
                 };
                 result.Add(languageData);
@@ -41,6 +42,11 @@ namespace LanguageSchool.BusinessLogic
         public Language GetById(int Id)
         {
             return languageDAL.GetById(Id);
+        }
+
+        public Language GetByName(int name)
+        {
+            return languageDAL.GetById(name);
         }
     }
 }

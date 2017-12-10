@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LanguageSchool.Shared.Dtos
 {
-    public class LanguageDataDto
+    public class LanguagelevelDto
     {
         public int Id { get; set; }
-        public string LanguageName { get; set; }
+        public string LevelSignature { get; set; }
     }
 }

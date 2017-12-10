@@ -43,6 +43,7 @@
     <Compile Include="Dtos\ClassBasicDataDto.cs" />
     <Compile Include="Dtos\ClassDataDto.cs" />
     <Compile Include="Dtos\LanguageDataDto.cs" />
+    <Compile Include="Dtos\LanguagelevelDto.cs" />
     <Compile Include="Dtos\StudentDataDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

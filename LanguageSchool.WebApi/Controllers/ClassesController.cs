@@ -25,7 +25,7 @@ namespace LanguageSchool.WebApi.Controllers
             _classService = classService;
         }
 
-        [RequireHttps]
+        //[RequireHttps]
         public IHttpActionResult Get()
         {
             var classes = _classService.GetAll();
@@ -97,12 +97,12 @@ namespace LanguageSchool.WebApi.Controllers
 
         [Authorize]
         [Route("api/classes/{id:int}"), HttpPost]
-        public IHttpActionResult SignFor(int classId)
+        public IHttpActionResult SignFor(int id)
         {
-            if (classId <= 0)
+            if (id <= 0)
                 return BadRequest("Invalid class id");
 
-            var error = _studentService.SignForClass(CurrentUserId(), classId);
+            var error = _studentService.SignForClass(CurrentUserId(), id);
             if (error != null)
                 return BadRequest(error);
 
@@ -111,16 +111,40 @@ namespace LanguageSchool.WebApi.Controllers
 
         [Authorize]
         [Route("api/classes/{id:int}"), HttpDelete]
-        public IHttpActionResult DeleteSubscription(int classId)
+        public IHttpActionResult DeleteSubscription(int id)
         {
-            if (classId <= 0)
+            if (id <= 0)
                 return BadRequest("Invalid class id");
 
-            var error = _studentService.UnsubscribeFromClass(CurrentUserId(), classId);
+            var error = _studentService.UnsubscribeFromClass(CurrentUserId(), id);
             if (error != null)
                 return BadRequest(error);
 
             return Ok();
+        }
+
+        [Route("api/classes/search"), HttpPost]
+        public IHttpActionResult Search(ClassesSearchingModel searchingModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ClassFilter filter = new ClassFilter()
+            {
+                ClassName = searchingModel.ClassName,
+                LanguageId = searchingModel.LanguageId,
+                LanguageLevelId = searchingModel.LanguageLevelId,
+                PageNumber = searchingModel.PageNumber,
+                PageSize = searchingModel.PageSize
+            };
+
+            (var classes, int pageCount) = _classService.Search(filter);
+            if (classes != null)
+                return Ok(classes);
+            else
+                return NotFound();
         }
     }
 }

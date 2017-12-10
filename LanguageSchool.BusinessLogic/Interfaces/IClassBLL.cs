@@ -14,7 +14,7 @@ namespace LanguageSchool.BusinessLogic
         List<ClassDataDto> GetAll();
         ClassDataDto GetByID(int ID);
         List<ClassBasicDataDto> GetClasses(string language, string level);
-        List<ClassBasicDataDto> Search(ClassFilter filter);
+        (List<ClassBasicDataDto> classes, int pageCount) Search(ClassFilter filter);
         List<ClassBasicDataDto> GetTopClasses(int count);
         List<ClassBasicDataDto> GetSuggestedClasses(string studentID, int count);
     }

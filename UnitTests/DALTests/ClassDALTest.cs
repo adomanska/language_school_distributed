@@ -58,8 +58,8 @@ namespace UnitTests
         [TestCase(null,-1,1,3)]
         public void Search_Always_ReturnsExpectedResult(string className, int languageID, int languageLevelID, int count)
         {
-            var result = classDAL.Search(className, languageID, languageLevelID).Count();
-            Assert.That(result, Is.EqualTo(count));
+            List<Class> result = classDAL.Search(className, languageID, languageLevelID);
+            Assert.That(result.Count(), Is.EqualTo(count));
         }
     }
 }

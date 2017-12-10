@@ -1,4 +1,5 @@
 ﻿using LanguageSchool.Model;
+using LanguageSchool.Shared.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +11,7 @@ namespace LanguageSchool.BusinessLogic
 {
     public interface ILanguageLevelBLL
     {
-        List<LanguageLevel> GetAll();
+        List<LanguagelevelDto> GetAll();
         List<string> GetLevels(string language);
     }
 }

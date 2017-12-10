@@ -228,12 +228,14 @@ namespace UnitTests
             ClassFilter filter = new ClassFilter()
             {
                 ClassName = className,
-                Language = languageID!=-1 ? languages.ElementAt(languageID - 1) : null,
-                LanguageLevel = languageLevelID!=-1 ? languageLevels.ElementAt(languageLevelID - 1) : null,
+                LanguageId = languageID!=-1 ? languages.ElementAt(languageID - 1).Id : -1,
+                LanguageLevelId = languageLevelID!=-1 ? languageLevels.ElementAt(languageLevelID - 1).Id : -1,
+                PageNumber = 1,
+                PageSize = 10
             };
 
             var res = classBLL.Search(filter);
-            Assert.That(res.Count, Is.EqualTo(classCount));
+            Assert.That(res.classes.Count, Is.EqualTo(classCount));
         }
     }
 }

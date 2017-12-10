@@ -83,6 +83,7 @@ namespace LanguageSchool.BusinessLogic
                 {
                     ClassBasicDataDto classData = new ClassBasicDataDto()
                     {
+                        Id = c.Id,
                         ClassName = c.ClassName,
                         Language = classDAL.GetLanguage(c.Id).LanguageName,
                         LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
@@ -99,30 +100,54 @@ namespace LanguageSchool.BusinessLogic
             }
         }
 
-        public List<ClassBasicDataDto> Search(ClassFilter filter)
+        //public List<ClassBasicDataDto> Search(ClassFilter filter)
+        //{
+        //    try
+        //    {
+        //        var classes = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.Id, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
+        //        List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+        //        foreach (Class c in classes)
+        //        {
+        //            ClassBasicDataDto classData = new ClassBasicDataDto()
+        //            {
+        //                ClassName = c.ClassName,
+        //                Language = classDAL.GetLanguage(c.Id).LanguageName,
+        //                LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
+        //            };
+        //            result.Add(classData);
+        //        }
+
+        //        return result;
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public (List<ClassBasicDataDto> classes, int pageCount) Search(ClassFilter filter)
         {
-            try
-            {
-                var classes = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.Id, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
-                List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+            var resultCollection = classDAL.Search(filter.ClassName, filter.LanguageId == 0 ? -1 : filter.LanguageId, filter.LanguageLevelId == 0 ? -1 : filter.LanguageLevelId);
+            var count = Math.Ceiling(((double)resultCollection.Count()) / filter.PageSize);
+            var classes = resultCollection.OrderBy(x => x.ClassName).Skip(filter.PageSize * (filter.PageNumber - 1)).Take(filter.PageSize).ToList();
 
-                foreach (Class c in classes)
+            List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
+
+            foreach (Class c in classes)
+            {
+                ClassBasicDataDto classData = new ClassBasicDataDto()
                 {
-                    ClassBasicDataDto classData = new ClassBasicDataDto()
-                    {
-                        ClassName = c.ClassName,
-                        Language = classDAL.GetLanguage(c.Id).LanguageName,
-                        LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
-                    };
-                    result.Add(classData);
-                }
+                    Id = c.Id,
+                    ClassName = c.ClassName,
+                    Language = classDAL.GetLanguage(c.Id).LanguageName,
+                    LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature,
+                    StudentsCount = GetStudentsCount(c.Id)
+                };
+                result.Add(classData);
+            }
 
-                return result;
-            }
-            catch
-            {
-                return null;
-            }
+            return (result, (int)count);
         }
 
         public List<ClassBasicDataDto> GetTopClasses(int count)
@@ -199,10 +224,10 @@ namespace LanguageSchool.BusinessLogic
     public class ClassFilter
     {
         public string ClassName { get; set; }
-        public Language Language { get; set; }
-        public LanguageLevel LanguageLevel{ get; set; }
+        public int LanguageId { get; set; }
+        public int LanguageLevelId{ get; set; }
 
-        //public int PageNumber { get; set; }
-        //public int PageSize { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
     }
 }

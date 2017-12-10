@@ -42,16 +42,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LanguageSchool.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LanguageSchool.DataAccess\bin\Debug\LanguageSchool.DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="LanguageSchool.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LanguageSchool.Shared\bin\Debug\LanguageSchool.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="LanguageSchool.WebApi">
-      <HintPath>..\LanguageSchool.WebApi\bin\LanguageSchool.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.7.145.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.145\lib\net45\Moq.dll</HintPath>
@@ -116,9 +109,17 @@
       <Project>{98e12b1a-ce3f-418e-bc8e-41aa040323e1}</Project>
       <Name>LanguageSchool.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LanguageSchool.DataAccess\LanguageSchool.DataAccess.csproj">
+      <Project>{98e12b1a-ce3f-418e-bc8e-41aa040323e1}</Project>
+      <Name>LanguageSchool.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LanguageSchool.Model\LanguageSchool.Model.csproj">
       <Project>{7188bcf3-7c5b-473d-925f-497fa9fe1636}</Project>
       <Name>LanguageSchool.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LanguageSchool.WebApi\LanguageSchool.WebApi.csproj">
+      <Project>{0f4cabe6-e0a9-42df-a844-edd0a789d9ed}</Project>
+      <Name>LanguageSchool.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

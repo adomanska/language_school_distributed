@@ -55,7 +55,7 @@ namespace LanguageSchool.DataAccess
             if (className != null)
                 resultCollection = resultCollection.Where(x => x.ClassName.Contains(className));
             classes = resultCollection.ToList();
-            
+
             return classes;
         }
 
