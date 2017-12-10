@@ -7,7 +7,6 @@ using LanguageSchool.DataAccess;
 using LanguageSchool.Model;
 using System.Text.RegularExpressions;
 using System.Data.Entity;
-using LanguageSchool.Presentation;
 using System.Collections.ObjectModel;
 using LanguageSchool.Shared.Dtos;
 
@@ -120,13 +119,15 @@ namespace LanguageSchool.BusinessLogic
         {
             try
             {
-                Student existingStudent = _studentDAL.FindByEmail(email);
-                if (existingStudent != null && existingStudent.Id != id)
+                Student existingStudentWithEmail = _studentDAL.FindByEmail(email);
+                if (existingStudentWithEmail != null && existingStudentWithEmail.Id != id)
                     throw new Exception("Student with such email already exists");
 
+                Student existingStudent = _studentDAL.GetById(id);
                 firstName = !String.IsNullOrEmpty(firstName) ? firstName : existingStudent.FirstName;
                 lastName = !String.IsNullOrEmpty(lastName) ? lastName : existingStudent.LastName;
                 email = !String.IsNullOrEmpty(email) ? email : existingStudent.Email;
+                phoneNumber = phoneNumber != null ? phoneNumber : existingStudent.PhoneNumber;
 
                 IsValidData(firstName, lastName, email, phoneNumber);
                 _studentDAL.Update(id, firstName, lastName, email, phoneNumber == "" ? null : phoneNumber);

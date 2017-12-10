@@ -45,7 +45,7 @@ namespace LanguageSchool.WebApi.Controllers
         }
 
         [Authorize]
-        [Route("api/student"), HttpPut]
+        [Route("api/student/info"), HttpPut]
         public IHttpActionResult PutInformations(EditProfileModel editModel)
         {
             if (!ModelState.IsValid)

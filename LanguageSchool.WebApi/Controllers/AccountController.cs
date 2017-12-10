@@ -32,6 +32,16 @@ namespace LanguageSchool.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            string error = null;
+            if(!Validator.IsFirstNameValid(userModel.FirstName, ref error))
+                return BadRequest(error);
+            if (!Validator.IsLastNameValid(userModel.LastName, ref error))
+                return BadRequest(error);
+            if (!Validator.IsEmailValid(userModel.Email, ref error))
+                return BadRequest(error);
+            if (!Validator.IsPhoneNumberValid(userModel.PhoneNumber, ref error))
+                return BadRequest(error);
+
             IdentityResult result = await _repo.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);

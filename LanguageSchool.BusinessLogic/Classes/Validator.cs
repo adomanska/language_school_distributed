@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LanguageSchool.Presentation
+namespace LanguageSchool.BusinessLogic
 {
     public static class Validator
     {

@@ -6,8 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using LanguageSchool.Model;
 using System.Linq.Expressions;
-using LanguageSchool.DataAccess.Providers;
-
 namespace LanguageSchool.DataAccess
 {
     public enum SearchBy { Email, LastName };
