@@ -22,6 +22,8 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult Get()
         {
             var languages = _languageService.GetAll();
+            if (languages == null)
+                return NotFound();
             return Ok(languages);
         }
 

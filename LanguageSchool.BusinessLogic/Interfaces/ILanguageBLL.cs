@@ -14,6 +14,5 @@ namespace LanguageSchool.BusinessLogic
     {
         List<LanguageDataDto> GetAll();
         Language GetById(int Id);
-        Language GetByName(int name);
     }
 }

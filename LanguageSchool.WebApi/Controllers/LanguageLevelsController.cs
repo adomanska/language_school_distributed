@@ -19,6 +19,8 @@ namespace LanguageSchool.WebApi.Controllers
         public IHttpActionResult Get()
         {
             var languageLevels = _languageLevelService.GetAll();
+            if (languageLevels == null)
+                return NotFound();
             return Ok(languageLevels);
         }
     }

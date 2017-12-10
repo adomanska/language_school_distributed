@@ -11,8 +11,5 @@ namespace LanguageSchool.Model
     {
         [Key]
         public virtual int Id { get; set; }
-
-        [Timestamp]
-        public byte[] Version { get; set; }
     }
 }

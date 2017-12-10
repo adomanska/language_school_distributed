@@ -26,11 +26,5 @@ namespace LanguageSchool.DataAccess
         {
             return _context.Languages.Where(x => x.Id == Id).Select(x => x).FirstOrDefault();
         }
-
-        public Language GetByName(string name)
-        {
-            return _context.Languages.Where(x => x.LanguageName == name).Select(x => x).FirstOrDefault();
-        }
-
     }
 }

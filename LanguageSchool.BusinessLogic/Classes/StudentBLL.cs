@@ -84,15 +84,6 @@ namespace LanguageSchool.BusinessLogic
             }
         }
 
-        //public void SignForClass(string studentID, Class languageClass)
-        //{
-        //    Student student = studentDAL.FindByID(studentID);
-        //    if (student != null && !student.Classes.Contains(languageClass))
-        //        studentDAL.SignForClass(student, languageClass);
-        //    else
-        //        throw new Exception("Student is already registered for this class");
-        //}
-
         public string SignForClass(string studentId, int classId)
         {
             Student student = _studentDAL.GetById(studentId);
@@ -124,8 +115,7 @@ namespace LanguageSchool.BusinessLogic
             _studentDAL.UnsubscribeFromClass(student, languageClass);
             return null;
         }
-
-
+        
         public string Update(string id, string firstName, string lastName, string email, string phoneNumber = "")
         {
             try

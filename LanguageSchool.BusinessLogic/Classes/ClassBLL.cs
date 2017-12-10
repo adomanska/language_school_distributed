@@ -100,32 +100,6 @@ namespace LanguageSchool.BusinessLogic
             }
         }
 
-        //public List<ClassBasicDataDto> Search(ClassFilter filter)
-        //{
-        //    try
-        //    {
-        //        var classes = classDAL.Search(filter.ClassName, filter.Language == null ? -1 : filter.Language.Id, filter.LanguageLevel == null ? -1 : filter.LanguageLevel.Id);
-        //        List<ClassBasicDataDto> result = new List<ClassBasicDataDto>();
-
-        //        foreach (Class c in classes)
-        //        {
-        //            ClassBasicDataDto classData = new ClassBasicDataDto()
-        //            {
-        //                ClassName = c.ClassName,
-        //                Language = classDAL.GetLanguage(c.Id).LanguageName,
-        //                LanguageLevel = classDAL.GetLanguageLevel(c.Id).LanguageLevelSignature
-        //            };
-        //            result.Add(classData);
-        //        }
-
-        //        return result;
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //}
-
         public (List<ClassBasicDataDto> classes, int pageCount) Search(ClassFilter filter)
         {
             var resultCollection = classDAL.Search(filter.ClassName, filter.LanguageId == 0 ? -1 : filter.LanguageId, filter.LanguageLevelId == 0 ? -1 : filter.LanguageLevelId);

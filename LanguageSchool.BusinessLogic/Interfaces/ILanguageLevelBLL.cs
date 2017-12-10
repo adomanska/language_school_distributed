@@ -11,7 +11,7 @@ namespace LanguageSchool.BusinessLogic
 {
     public interface ILanguageLevelBLL
     {
-        List<LanguagelevelDto> GetAll();
+        List<LanguageLevelDataDto> GetAll();
         List<string> GetLevels(string language);
     }
 }

@@ -43,10 +43,5 @@ namespace LanguageSchool.BusinessLogic
         {
             return languageDAL.GetById(Id);
         }
-
-        public Language GetByName(int name)
-        {
-            return languageDAL.GetById(name);
-        }
     }
 }

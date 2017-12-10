@@ -18,13 +18,13 @@ namespace LanguageSchool.BusinessLogic
         {
             languageLevelDAL = _languageLevelDAL;
         }
-        public List<LanguagelevelDto> GetAll()
+        public List<LanguageLevelDataDto> GetAll()
         {
             var levels = languageLevelDAL.GetAll();
-            List<LanguagelevelDto> result = new List<LanguagelevelDto>();
+            List<LanguageLevelDataDto> result = new List<LanguageLevelDataDto>();
             foreach (var l in levels)
             {
-                LanguagelevelDto languageData = new LanguagelevelDto()
+                LanguageLevelDataDto languageData = new LanguageLevelDataDto()
                 {
                     Id = l.Id,
                     LevelSignature = l.LanguageLevelSignature
